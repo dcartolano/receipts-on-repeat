@@ -1,16 +1,16 @@
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+// import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import App from './App';
 import HomePage from './pages/Home';
 import ErrorPage from './pages/Error';
 
-// Initialize Apollo Client
-const client = new ApolloClient({
-  uri: 'YOUR_GRAPHQL_ENDPOINT', // replace with your GraphQL endpoint
-  cache: new InMemoryCache(),
-});
+// // Initialize Apollo Client
+// const client = new ApolloClient({
+//   uri: 'YOUR_GRAPHQL_ENDPOINT', // replace with your GraphQL endpoint
+//   cache: new InMemoryCache(),
+// });
 
 const router = createBrowserRouter([
   {
@@ -26,11 +26,15 @@ const router = createBrowserRouter([
   },
 ]);
 
-const rootElement = document.getElementById('root');
-if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(
-    <ApolloProvider client={client}>
-      <RouterProvider router={router} />
-    </ApolloProvider>
-  );
-}
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <RouterProvider router={router} />
+)
+
+// const rootElement = document.getElementById('root');
+// if (rootElement) {
+//   ReactDOM.createRoot(rootElement).render(
+//     <ApolloProvider client={client}>
+//       <RouterProvider router={router} />
+//     </ApolloProvider>
+//   );
+// }
