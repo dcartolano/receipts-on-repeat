@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
-// import userRoutes from './user-routes.js';
+import playlistRoutes from './playlist-routes.js';
 
-// router.use('/');
+router.use('/api', playlistRoutes);
 
 export default router;
