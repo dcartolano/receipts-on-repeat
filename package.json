@@ -2,7 +2,7 @@
   "name": "main",
   "version": "1.0.0",
   "description": "",
-  "main": "server/server.js",
+  "main": "server/src/server.js",
   "Important for MERN Setup": {
     "line-10": "We use this top-level package.json file to define scripts we can run to control our entire application from the same CLI location",
     "line-21": "The concurrently npm tool allows us to execute two CLI processes... concurrently!"
