@@ -1,22 +1,37 @@
 import express from 'express';
-import path from 'node:path'
-const __dirname = import.meta.dirname;
-const app = express();
-const PORT = process.env.PORT || 3001;
+import bodyParser from 'body-parser';
+import spotifyAuth from './routes/spotify/spotifyAuth.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-app.get('/api', (req, res) => {
-  res.send('Hello from the Node.js backend api!');
+const app = express();
+const PORT = process.env.PORT || 8888;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serve static files (if needed)
+app.use(express.static('public'));
+
+// Homepage route
+app.get('/', (req, res) => {
+  res.send(`
+    <html>
+      <head>
+        <title>Spotify Auth</title>
+      </head>
+      <body>
+        <h1>Welcome to the Spotify Auth App</h1>
+        <button onclick="window.location.href='/spotify/login'">Login with Spotify</button>
+      </body>
+    </html>
+  `);
 });
 
-// if we're in production, serve client/build as static assets
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
+// Use the Spotify authentication routes
+app.use('/spotify', spotifyAuth);
 
-  app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-  });
-}
-
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
