@@ -1,37 +1,30 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import spotifyAuth from './routes/spotify/spotifyAuth.js';
+import spotifyAuth from './routes/spotifyAuth.js'; // Adjusted import path
 import dotenv from 'dotenv';
+import path from 'path';
+
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8888;
+const PORT = process.env.PORT || 3000;
 
+// Middleware to parse incoming request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve static files (if needed)
-app.use(express.static('public'));
-
-// Homepage route
-app.get('/', (req, res) => {
-  res.send(`
-    <html>
-      <head>
-        <title>Spotify Auth</title>
-      </head>
-      <body>
-        <h1>Welcome to the Spotify Auth App</h1>
-        <button onclick="window.location.href='/spotify/login'">Login with Spotify</button>
-      </body>
-    </html>
-  `);
-});
+// Serve static files from the React app
+app.use(express.static('client/build')); // Adjust the path to your build folder
 
 // Use the Spotify authentication routes
 app.use('/spotify', spotifyAuth);
 
+// Catch-all route to serve the React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html')); // Adjust the path as necessary
+});
+
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
