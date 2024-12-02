@@ -104,12 +104,12 @@ router.route('/callback').get(async (req, res) => {
             const tracksBody = await tracksResponse.json();
 
             if (tracksBody.items[0]) {
-            console.log(tracksBody.items[0].track.name)
+            //console.log(tracksBody.items[0].track.name)
             
 
             return {
-                name: playlist.name,
-                tracks: tracksBody.items // Get track names
+                name: playlist,
+                tracks: tracksBody // Get track names
             };
         }
         }));
