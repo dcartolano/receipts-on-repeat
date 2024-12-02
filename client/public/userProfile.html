@@ -42,24 +42,25 @@
 
             const playlistsContainer = document.getElementById('playlists');
             playlists.forEach(playlist => {
+                console.log('playlist: ',playlist);
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item';
-                listItem.innerHTML = `<strong>${playlist.name}</strong> - ${playlist.tracks.length} tracks`;
+                listItem.innerHTML = `<strong>${playlist.playlist.name}</strong> - ${playlist.tracks.total} tracks`;
                 
                 // Create a sublist for the track names
                 const trackList = document.createElement('ul');
                 trackList.className = 'list-group mt-2';
 
                 // Check if tracks is an array and then iterate over it
-                if (Array.isArray(playlist.tracks)) {
-                    playlist.tracks.forEach(track => {
+                if (Array.isArray(playlist.tracks.items)) {
+                    playlist.tracks.items.forEach(track => {
                         const trackItem = document.createElement('li');
                         trackItem.className = 'list-group-item';
-                        trackItem.innerText = track;
+                        trackItem.innerText = track.track.name;
                         trackList.appendChild(trackItem);
                     });
                 } else {
-                    console.error('Tracks is not an array:', playlist.tracks);
+                    console.error('Tracks is not an array:', playlist.tracks.items);
                 }
                 
                 listItem.appendChild(trackList);
