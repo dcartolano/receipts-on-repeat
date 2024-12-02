@@ -1,13 +1,14 @@
 import express from 'express';
 import querystring from 'querystring';
-import request from 'request';
+import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const router = express.Router();
 const client_id = process.env.CLIENT_ID; 
-const redirect_uri = 'http://localhost:3000/callback';
+const client_secret = process.env.CLIENT_SECRET; // Ensure CLIENT_SECRET is loaded from .env
+const redirect_uri = 'http://localhost:3000/callback'; // Ensure this matches your redirect URI in Spotify app settings
 
 function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -18,11 +19,11 @@ function generateRandomString(length) {
     return result;
 }
 
-router.get('/login', function(_req, res) {
+router.route('/login').get((_req, res) => {
     const state = generateRandomString(16); 
-    const scope = 'user-read-private user-read-email'; 
+    const scope = 'user-read-private user-read-email playlist-read-private'; // Adjust scopes as needed
 
-    res.redirect('https://accounts.spotify.com/.authorize?' +
+    res.redirect('https://accounts.spotify.com/authorize?' + 
         querystring.stringify({
             response_type: 'code',
             client_id: client_id,
@@ -32,49 +33,55 @@ router.get('/login', function(_req, res) {
         }));
 });
 
-router.get('/callback', (req, res) => {
+router.route('/callback').get(async(req, res) => {
     const code = req.query.code || null;
 
     const authOptions = {
-        url: 'https://accounts.spotify.com/api/token',
-        form: {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Basic ' + Buffer.from(`${client_id}:${client_secret}`).toString('base64'),
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: querystring.stringify({
             code: code,
             redirect_uri: redirect_uri,
             grant_type: 'authorization_code'
-        },
-        headers: {
-            'Authorization': 'Basic ' + Buffer.from(`${client_id}:${process.env.CLIENT_SECRET}`).toString('base64')
-        },
-        json: true
+        })
     };
 
-    request.post(authOptions, (error, response, body) => {
-        if (!error && response.statusCode === 200) {
+    try {
+        const response = await fetch('https://accounts.spotify.com/api/token', authOptions);
+        const body = await response.json();
+
+        if (response.ok) {
             const access_token = body.access_token;
 
-            const options = {
-                url: 'https://api.spotify.com/v1/me',
-                headers: { 'Authorization': 'Bearer ' + access_token },
-                json: true
+            const userOptions = {
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + access_token }
             };
 
-            request.get(options, (error, response, body) => {
-                if (!error && response.statusCode === 200) {
-                    res.json({
-                        name: body.display_name,
-                        email: body.email,
-                        image: body.images[0]?.url
-                    });
-                } else {
-                    console.error('Error fetching user profile:', error);
-                    res.send('Error fetching user profile');
-                }
-            });
+            const userResponse = await fetch('https://api.spotify.com/v1/me', userOptions);
+            const userBody = await userResponse.json();
+
+            if (userResponse.ok) {
+                res.json({
+                    name: userBody.display_name,
+                    email: userBody.email,
+                    image: userBody.images[0]?.url
+                });
+            } else {
+                console.error('Error fetching user profile:', userBody);
+                res.send('Error fetching user profile');
+            }
         } else {
-            console.error('Error exchanging code for token:', error);
+            console.error('Error exchanging code for token:', body);
             res.send('Error during authentication');
         }
-    });
+    } catch (error) {
+        console.error('Fetch error:', error);
+        res.send('Error during authentication');
+    }
 });
 
 export default router;
