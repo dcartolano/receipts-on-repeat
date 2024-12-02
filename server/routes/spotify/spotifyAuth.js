@@ -33,8 +33,9 @@ router.route('/login').get((_req, res) => {
         }));
 });
 
-router.route('/callback').get(async(req, res) => {
+router.route('/callback').get(async (req, res) => {
     const code = req.query.code || null;
+    console.log('Authorization Code:', code); // Log the received authorization code
 
     const authOptions = {
         method: 'POST',
@@ -51,37 +52,81 @@ router.route('/callback').get(async(req, res) => {
 
     try {
         const response = await fetch('https://accounts.spotify.com/api/token', authOptions);
-        const body = await response.json();
 
-        if (response.ok) {
-            const access_token = body.access_token;
-
-            const userOptions = {
-                method: 'GET',
-                headers: { 'Authorization': 'Bearer ' + access_token }
-            };
-
-            const userResponse = await fetch('https://api.spotify.com/v1/me', userOptions);
-            const userBody = await userResponse.json();
-
-            if (userResponse.ok) {
-                res.json({
-                    name: userBody.display_name,
-                    email: userBody.email,
-                    image: userBody.images[0]?.url
-                });
-            } else {
-                console.error('Error fetching user profile:', userBody);
-                res.send('Error fetching user profile');
-            }
-        } else {
-            console.error('Error exchanging code for token:', body);
-            res.send('Error during authentication');
+        if (!response.ok) {
+            const errorBody = await response.text(); // Get the response as text
+            console.error('Error exchanging code for token:', errorBody);
+            return res.send('Error during authentication: ' + errorBody);
         }
+
+        const body = await response.json();
+        console.log('Token Response:', body); // Log the token response for debugging
+
+        const access_token = body.access_token;
+
+        const userOptions = {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + access_token }
+        };
+
+        // Fetch user profile
+        const userResponse = await fetch('https://api.spotify.com/v1/me', userOptions);
+        if (!userResponse.ok) {
+            const userErrorBody = await userResponse.text(); // Get the response as text
+            console.error('Error fetching user profile:', userErrorBody);
+            return res.send('Error fetching user profile: ' + userErrorBody);
+        }
+        const userBody = await userResponse.json();
+
+        // Fetch user playlists
+        const playlistsResponse = await fetch('https://api.spotify.com/v1/me/playlists', userOptions);
+        if (!playlistsResponse.ok) {
+            const playlistsErrorBody = await playlistsResponse.text(); // Get the response as text
+            console.error('Error fetching user playlists:', playlistsErrorBody);
+            return res.send('Error fetching user playlists: ' + playlistsErrorBody);
+        }
+        const playlistsBody = await playlistsResponse.json();
+
+        // Fetch tracks for each playlist
+        const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
+            if (!playlist || !playlist.id) {
+                console.error('Invalid playlist object:', playlist);
+                return { name: 'Unknown Playlist', tracks: [] }; // Return empty tracks for invalid playlists
+            }
+
+            const tracksResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, userOptions);
+            if (!tracksResponse.ok) {
+                const tracksErrorBody = await tracksResponse.text(); // Get the response as text
+                console.error('Error fetching tracks for playlist:', tracksErrorBody);
+                return { name: playlist.name, tracks: [] }; // Return empty tracks on error
+            }
+            const tracksBody = await tracksResponse.json();
+            return {
+                name: playlist.name,
+                tracks: tracksBody // Get track names
+            };
+        }));
+
+        // Store user data and playlists with tracks in local storage
+        res.send(`
+            <script>
+                localStorage.setItem('userData', JSON.stringify({
+                    name: '${userBody.display_name}',
+                    email: '${userBody.email}',
+                    image: '${userBody.images[0]?.url || ''}',
+                    playlists: ${JSON.stringify(playlistsWithTracks)}
+                }));
+                window.location.href = '/userProfile.html'; // Redirect to user profile page
+            </script>
+        `);
     } catch (error) {
-        console.error('Fetch error:', error);
+        console.error('Fetch error before token:', error);
         res.send('Error during authentication');
     }
+});
+
+router.route('/userProfile').get((req, res) => {
+    res.json(req.session.userData); // Send user data as JSON
 });
 
 export default router;
