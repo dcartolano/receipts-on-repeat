@@ -86,6 +86,7 @@ router.route('/callback').get(async (req, res) => {
             return res.send('Error fetching user playlists: ' + playlistsErrorBody);
         }
         const playlistsBody = await playlistsResponse.json();
+        console.log(playlistsBody)
 
         // Fetch tracks for each playlist
         const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
@@ -101,10 +102,16 @@ router.route('/callback').get(async (req, res) => {
                 return { name: playlist.name, tracks: [] }; // Return empty tracks on error
             }
             const tracksBody = await tracksResponse.json();
+
+            if (tracksBody.items[0]) {
+            console.log(tracksBody.items[0].track.name)
+            
+
             return {
                 name: playlist.name,
-                tracks: tracksBody // Get track names
+                tracks: tracksBody.items // Get track names
             };
+        }
         }));
 
         // Store user data and playlists with tracks in local storage
