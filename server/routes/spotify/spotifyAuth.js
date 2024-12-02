@@ -35,7 +35,7 @@ router.route('/login').get((_req, res) => {
 
 router.route('/callback').get(async (req, res) => {
     const code = req.query.code || null;
-    console.log('Authorization Code:', code); // Log the received authorization code
+    // console.log('Authorization Code:', code); // Log the received authorization code
 
     const authOptions = {
         method: 'POST',
@@ -60,7 +60,7 @@ router.route('/callback').get(async (req, res) => {
         }
 
         const body = await response.json();
-        console.log('Token Response:', body); // Log the token response for debugging
+        // console.log('Token Response:', body); // Log the token response for debugging
 
         const access_token = body.access_token;
 
@@ -79,21 +79,25 @@ router.route('/callback').get(async (req, res) => {
         const userBody = await userResponse.json();
 
         // Fetch user playlists
-        const playlistsResponse = await fetch('https://api.spotify.com/v1/me/playlists', userOptions);
+        const playlistsResponse = await fetch('https://api.spotify.com/v1/me/playlists?offset=0&limit=5', userOptions); // changed this
         if (!playlistsResponse.ok) {
             const playlistsErrorBody = await playlistsResponse.text(); // Get the response as text
             console.error('Error fetching user playlists:', playlistsErrorBody);
             return res.send('Error fetching user playlists: ' + playlistsErrorBody);
         }
         const playlistsBody = await playlistsResponse.json();
-        console.log(playlistsBody)
+        console.log('playlistsBody on line 89: ', playlistsBody)
+
+        const filteredPlaylists = playlistsBody.items.filter((playlist) => !(!playlist || !playlist.id));
 
         // Fetch tracks for each playlist
-        const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
-            if (!playlist || !playlist.id) {
-                console.error('Invalid playlist object:', playlist);
-                return { name: 'Unknown Playlist', tracks: [] }; // Return empty tracks for invalid playlists
-            }
+        // const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
+            const playlistsWithTracks = await Promise.all(filteredPlaylists.map(async (playlist) => {
+            // if (!playlist || !playlist.id) {
+            //     console.error('Invalid playlist object:', playlist);
+            //     continue;
+            //     // return { name: 'Unknown Playlist', tracks: [] }; // Return empty tracks for invalid playlists
+            // }
 
             const tracksResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, userOptions);
             if (!tracksResponse.ok) {
@@ -103,12 +107,13 @@ router.route('/callback').get(async (req, res) => {
             }
             const tracksBody = await tracksResponse.json();
 
-            if (tracksBody.items[0]) {
+            if (tracksBody.items[0] && playlist.name != 'Unknown Playlist') {
             //console.log(tracksBody.items[0].track.name)
-            
+            // console.log('playlist on line 108: ', playlist)
+            // console.log('tracksBody on line 109: ', tracksBody.items)
 
             return {
-                name: playlist,
+                playlist: playlist,
                 tracks: tracksBody // Get track names
             };
         }
