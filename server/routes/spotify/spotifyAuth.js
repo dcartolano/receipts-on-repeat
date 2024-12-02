@@ -8,7 +8,7 @@ dotenv.config();
 const router = express.Router();
 const client_id = process.env.CLIENT_ID; 
 const client_secret = process.env.CLIENT_SECRET; // Ensure CLIENT_SECRET is loaded from .env
-const redirect_uri = 'http://localhost:3000/callback'; // Ensure this matches your redirect URI in Spotify app settings
+const redirect_uri = 'http://localhost:3000/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
 
 function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
