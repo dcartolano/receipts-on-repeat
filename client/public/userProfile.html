@@ -16,6 +16,10 @@
                 <img id="userImage" alt="Profile" class="img-fluid rounded-circle" style="width: 150px; height: 150px; display: none;">
             </div>
         </div>
+        <div id="recent-playlists" style="margin: 20px; padding: 10px; border: 1px solid #ccc;">
+            <h2>Recent Playlists</h2>
+            <div id="playlists-container"></div>
+        </div>
         <div class="mt-4">
             <h2>Your Playlists</h2>
             <ul id="playlists" class="list-group"></ul>
@@ -29,6 +33,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    
     <script>
         // Function to populate user data and playlists
         function populateUserData(name, email, image, playlists) {
@@ -75,6 +81,43 @@
         } else {
             document.getElementById('userName').innerText = 'User data not found.';
         }
+    </script>
+    <script>
+        function displayRecentPlaylists() {
+            // Retrieve playlists from localStorage
+            const playlists = JSON.parse(localStorage.getItem('playlists')) || [];
+            
+            // Get the 5 most recent playlists
+            const recentPlaylists = playlists.slice(-5).reverse();
+            
+            const container = document.getElementById('playlists-container');
+            container.innerHTML = ''; // Clear previous content
+            
+            recentPlaylists.forEach(playlist => {
+                // Create a div for each playlist
+                const playlistDiv = document.createElement('div');
+                playlistDiv.style.marginBottom = '20px';
+            
+                // Add playlist name
+                const playlistName = document.createElement('h3');
+                playlistName.innerText = playlist.name; // Ensure you access the correct property
+                playlistDiv.appendChild(playlistName);
+            
+                // Add song names
+                const songsList = document.createElement('ul');
+                playlist.songs.forEach((song, index) => {
+                    const songItem = document.createElement('li');
+                    songItem.innerText = `${index + 1}. ${song.name}`; // Ensure you access the correct property
+                    songsList.appendChild(songItem);
+                });
+            
+                playlistDiv.appendChild(songsList);
+                container.appendChild(playlistDiv);
+            });
+        }
+
+        // Call the function to display playlists
+        displayRecentPlaylists();
     </script>
 </body>
 </html>

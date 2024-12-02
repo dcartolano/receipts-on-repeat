@@ -51,6 +51,22 @@ router.route('/callback').get(async (req, res) => {
     };
 
     try {
+        const code = req.query.code || null;
+        console.log('Authorization Code:', code); // Log the received authorization code
+
+        const authOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Basic ' + Buffer.from(`${client_id}:${client_secret}`).toString('base64'),
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: querystring.stringify({
+                code: code,
+                redirect_uri: redirect_uri,
+                grant_type: 'authorization_code'
+            })
+        };
+
         const response = await fetch('https://accounts.spotify.com/api/token', authOptions);
 
         if (!response.ok) {
