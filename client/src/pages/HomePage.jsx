@@ -11,7 +11,7 @@ const HomePage = () => {
     // Fetch user data after successful login
     useEffect(() => {
         const fetchUserData = async () => {
-            const response = await fetch('http://localhost:3000/callback'); // Adjust based on your server's URL
+            const response = await fetch('/callback'); // Adjust based on your server's URL
             if (response.ok) {
                 const data = await response.json();
                 setUser(data);
