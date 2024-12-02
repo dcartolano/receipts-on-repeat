@@ -20,7 +20,7 @@ function generateRandomString(length) {
 }
 
 router.route('/login').get((_req, res) => {
-    const state = generateRandomString(16); 
+    const state = generateRandomString(16);
     const scope = 'user-read-private user-read-email playlist-read-private'; // Adjust scopes as needed
 
     res.redirect('https://accounts.spotify.com/authorize?' + 
