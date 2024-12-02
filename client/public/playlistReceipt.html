@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center" id="userName">Welcome!</h1>
+        <div class="card">
+            <div class="card-body text-center">
+                <p class="card-text" id="userEmail">Email: </p>
+                <img id="userImage" alt="Profile" class="img-fluid rounded-circle" style="width: 150px; height: 150px; display: none;">
+            </div>
+        </div>
+        <div class="mt-4">
+            <h2>Your Playlists</h2>
+            <ul id="playlists" class="list-group"></ul>
+        </div>
+        <div class="text-center mt-3">
+            <a href="/" class="btn btn-primary">Go Back</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    
+    <script>
+        // Function to populate user data and playlists
+        function populateUserData(name, email, image, playlists) {
+            document.getElementById('userName').innerText = 'Welcome, ' + name + '!';
+            document.getElementById('userEmail').innerText = 'Email: ' + email;
+            if (image) {
+                const userImage = document.getElementById('userImage');
+                userImage.src = image;
+                userImage.style.display = 'block';
+            }
+
+            const playlistsContainer = document.getElementById('playlists');
+            playlists.forEach(playlist => {
+                console.log('playlist: ',playlist);
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item';
+                listItem.innerHTML = `<strong>${playlist.playlist.name}</strong> - ${playlist.tracks.total} tracks`;
+                
+                // Create a sublist for the track names
+                const trackList = document.createElement('ul');
+                trackList.className = 'list-group mt-2';
+
+                // Check if tracks is an array and then iterate over it
+                if (Array.isArray(playlist.tracks.items)) {
+                    playlist.tracks.items.forEach(track => {
+                        const trackItem = document.createElement('li');
+                        trackItem.className = 'list-group-item';
+                        trackItem.innerText = track.track.name;
+                        trackList.appendChild(trackItem);
+                    });
+                } else {
+                    console.error('Tracks is not an array:', playlist.tracks.items);
+                }
+                
+                listItem.appendChild(trackList);
+                playlistsContainer.appendChild(listItem);
+            });
+        }
+
+        // Fetch user data from local storage
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (userData) {
+            populateUserData(userData.name, userData.email, userData.image, userData.playlists);
+        } else {
+            document.getElementById('userName').innerText = 'User data not found.';
+        }
+    </script>
+</body>
+</html>
