@@ -6,6 +6,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const router = express.Router();
+
+import {
+    getAllReceipts,
+    createReceipt,
+} from '../../controllers/receipt-controller.js';
+
+router.route('/receipts').get(getAllReceipts).post(createReceipt);
+
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET; // Ensure CLIENT_SECRET is loaded from .env
 const redirect_uri = 'http://localhost:3000/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
@@ -99,7 +107,9 @@ router.route('/callback').get(async (req, res) => {
             //     // return { name: 'Unknown Playlist', tracks: [] }; // Return empty tracks for invalid playlists
             // }
 
-            // const encodedPlaylistUrl = encodeURIComponent(playlist.external_urls.spotify)
+            const encodedPlaylistUrl = encodeURIComponent(playlist.external_urls.spotify);
+            const qrCode = `http://api.qrserver.com/v1/create-qr-code/?data=${encodedPlaylistUrl}&size=100x100`;
+            const spotifyCode = `https://scannables.scdn.co/uri/plain/jpeg/000000/white/640/${playlist.uri}`;
 
             // const qrResponse = await fetch(`http://api.qrserver.com/v1/create-qr-code/?data=${encodedPlaylistUrl}&size=100x100`);
             // if (!qrResponse.ok) {
@@ -149,15 +159,81 @@ router.route('/callback').get(async (req, res) => {
                 }
             }
 
+            const tracksArray = await tracksBody.items.map((item) => {
+                return {
+                    artist: item.track.artists[0].name,
+                    duration: `${Math.floor(item.track.duration_ms/1000/60)}:${Math.floor(((item.track.duration_ms/1000/60)%(Math.floor((item.track.duration_ms/1000/60))))*(60))}`,
+                    name: item.track.name
+                }
+            });
+
             if (tracksBody.items[0] && playlist.name != 'Unknown Playlist') {
 
+                // return {
+                //     playlist: playlist,
+                //     tracks: tracksBody,
+                //     lyrics: lyricsObject
+                // };
+
+                // return {
+                //     playlist: {
+                //         url: playlist.external_urls.spotify,
+                //         imageUrl: playlist.images[0].url,
+                //         name: playlist.name,
+                //         owner: playlist.owner.display_name,
+                //         total: playlist.tracks.total,
+                //         uri: playlist.uri
+                //     },
+                //     tracks: 
+                //         tracksBody.items.map((item) => {
+                //             {
+                //                 artist: item.track.artists[0].name,
+                //                 duration: 
+                //             }
+                //         })
+                //     ,
+                //     lyrics: lyricsObject,
+                //     qrCode: qrCode
+                // };
+
                 return {
-                    playlist: playlist,
-                    tracks: tracksBody,
-                    lyrics: lyricsObject
+                    url: playlist.external_urls.spotify,
+                    imageUrl: playlist.images[0].url,
+                    name: playlist.name,
+                    owner: playlist.owner.display_name,
+                    total: playlist.tracks.total,
+                    uri: playlist.uri,
+                    tracks: tracksArray,
+                    lyrics: lyricsObject,
+                    qrCode: qrCode,
+                    spotifyCode: spotifyCode
                 };
             }
         }));
+
+        // const { lyrics } = playlistsWithTracks;
+        // const { playlist } = playlistsWithTracks;
+        // const { tracks } = playlistsWithTracks;
+
+
+        // const user = JSON.stringify({
+        //     name: userBody.display_name,
+        //     email: userBody.email,
+        //     image: userBody.images[0]?.url || ''
+        //     // image: userBody.images[0].url
+        // });
+        // const user = {
+        //     name: userBody.display_name,
+        //     email: userBody.email,
+        //     image: userBody.images[0]?.url || ''
+        //     // image: userBody.images[0].url
+        // };
+
+        // const playlists = JSON.stringify(playlistsWithTracks);
+        // const playlists = playlistsWithTracks;
+        // console.log('user: ', user);
+        // console.log('playlists: ', playlists);
+
 
         // Store user data and playlists with tracks in local storage
         res.send(`
@@ -168,6 +244,7 @@ router.route('/callback').get(async (req, res) => {
                     image: '${userBody.images[0]?.url || ''}',
                     playlists: ${JSON.stringify(playlistsWithTracks)}
                 }));
+                
                 // window.location.href = '/userProfile.html'; // Redirect to user profile page
                 window.location.assign('/userProfile');
             </script>
