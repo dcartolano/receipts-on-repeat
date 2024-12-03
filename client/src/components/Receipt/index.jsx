@@ -1,60 +1,67 @@
 import React, { useEffect, useState } from 'react';
 
-const Receipt = () => {
+const Receipt = ({ playlist }) => {
     const [userData, setUserData] = useState(null);
-    const [total, setTotal] = useState(0); // State to hold the total price
 
     useEffect(() => {
         // Fetch user data from local storage
         const data = JSON.parse(localStorage.getItem('userData'));
+        console.log('Fetched userData from localStorage:', data); // Log the fetched data
         if (data) {
             setUserData(data);
+        } else {
+            console.error('No userData found in localStorage.'); // Log an error if no data is found
         }
     }, []);
 
     const renderPlaylist = (playlist) => {
         let totalPrice = 0; // Initialize total price for the current playlist
-
+    
         return (
-            <div key={playlist.playlist.id}>
-                <h3>{playlist.playlist.name}</h3>
-                <ul id="songList">
-                    {playlist.tracks.items.map((track) => {
-                        const fakePrice = (Math.random() * 10 + 1).toFixed(2); // Generate a fake price
-                        totalPrice += parseFloat(fakePrice); // Accumulate total price
-                        console.log('Playlist:', playlist);
-                        console.log('Tracks:', playlist.tracks.items);
-                        return (
-                            
-                            <li key={track.track.id} className="song-item d-flex justify-content-between">
-                                <span className="text-left">{track.track.name}</span>
-                                <span className="text-right">${fakePrice}</span>
-                            </li>
-                        );
-                    })}
-                </ul>
-                <h4>Total: ${totalPrice.toFixed(2)}</h4>
-                {playlist.lyrics && (
-                    <p style={{ fontSize: '0.8em' }}>
-                        "{playlist.lyrics.lyrics}" - {playlist.lyrics.artist}
-                    </p>
-                )}
+            <div className='playlist-outer'>
+                <div key={playlist.playlist.id} className="playlist-container border p-3 mt-3">
+                    <h3>{playlist.playlist.name}</h3>
+                    <ul id="songList" className="list-unstyled">
+                        {playlist.tracks.items.map((track) => {
+                            const fakePrice = (Math.random() * 10 + 1).toFixed(2); // Generate a fake price
+                            totalPrice += parseFloat(fakePrice); // Accumulate total price
+                            return (
+                                <li key={track.track.id} className="song-item d-flex justify-content-between align-items-center">
+                                    <div className="text-left">
+                                        <span>{track.track.name}</span>
+                                        <span className="mx-2">by {track.track.artists[0]?.name || 'Unknown Artist'}</span>
+                                    </div>
+                                    <span className="text-right">${fakePrice}</span>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                    <h4>Total: ${totalPrice.toFixed(2)}</h4>
+                    {playlist.lyrics && (
+                        <p style={{ fontSize: '0.8em' }}>
+                            "{playlist.lyrics.lyrics}" - {playlist.lyrics.artist}
+                        </p>
+                    )}
+                </div>
             </div>
         );
     };
 
     return (
-        <div>
+        <div className="container mt-5">
             {userData ? (
-                <div>
+                <div className="text-center">
                     <h2>Welcome, {userData.name}!</h2>
                     <p>Email: {userData.email}</p>
-                    {userData.image && <img src={userData.image} alt="Profile" style={{ display: 'block' }} />}
-                    {userData.playlists.length > 0 ? (
-                        renderPlaylist(userData.playlists[0]) // Display the first playlist
+                    {userData.image && <img src={userData.image} alt="Profile" className="img-fluid rounded-circle" style={{ width: '150px', height: '150px' }} />}
+                    {playlist ? (
+                        renderPlaylist(playlist) // Render the passed playlist
                     ) : (
-                        <p>No playlists available.</p>
+                        <p>No playlist data available.</p>
                     )}
+                    <div className="text-center mt-3">
+                        <a href="/userProfile" className="btn btn-primary">Go Back</a>
+                    </div>
                 </div>
             ) : (
                 <p>User data not found.</p>
