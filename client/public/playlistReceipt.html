@@ -130,7 +130,7 @@
             if (playlist.lyrics) {
                 const lyricsElement = document.createElement('p');
                 lyricsElement.innerText = `"${playlist.lyrics.lyrics}" - ${playlist.lyrics.artist}`; // Assuming playlist.artist contains the artist's name
-                lyricsElement.style.fontSize = '0.8em';
+                lyricsElement.style.fontSize = '0.8em'; // Adjust the size as needed
                 playlistContainer.appendChild(lyricsElement);
             }
         }
