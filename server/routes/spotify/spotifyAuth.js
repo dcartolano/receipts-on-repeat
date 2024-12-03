@@ -92,53 +92,42 @@ router.route('/callback').get(async (req, res) => {
 
         // Fetch tracks for each playlist
         // const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
-        const playlistsWithTracks = await Promise.all(filteredPlaylists.map(async (playlist) => {
-            // if (!playlist || !playlist.id) {
-            //     console.error('Invalid playlist object:', playlist);
-            //     continue;
-            //     // return { name: 'Unknown Playlist', tracks: [] }; // Return empty tracks for invalid playlists
-            // }
-
-            const tracksResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, userOptions);
-            if (!tracksResponse.ok) {
-                const tracksErrorBody = await tracksResponse.text(); // Get the response as text
-                console.error('Error fetching tracks for playlist:', tracksErrorBody);
-                return { name: playlist.name, tracks: [] }; // Return empty tracks on error
-            }
-            const tracksBody = await tracksResponse.json();
-
-            let lyricsObject;
-            let lyricsResponseOk = false;
-            while (!lyricsResponseOk) {
-                const randomNumber = Math.floor(Math.random() * tracksBody.items.length);
-                console.log(randomNumber);
-
-                console.log('tracksbody.items[randomNumber].track.name: ', tracksBody.items[randomNumber].track.name);
-
-                const randomTitle = await tracksBody.items[randomNumber].track.name;
-                const randomArtist = await tracksBody.items[randomNumber].track.artists[0].name;
-
-                const lyricsResponse = await fetch(`https://api.lyrics.ovh/v1/${randomArtist}/${randomTitle}`);
-                if (lyricsResponse.ok) {
-                    const randomLyrics = await lyricsResponse.json();
-                    const splitRandomLyrics = await randomLyrics.lyrics.split(/\r?\n/);
-                    lyricsObject = {
-                        lyrics: splitRandomLyrics[0],
-                        artist: randomArtist
-                    }
-                    lyricsResponseOk = true;
+            const playlistsWithTracks = await Promise.all(filteredPlaylists.map(async (playlist) => {
+                const tracksResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, userOptions);
+                if (!tracksResponse.ok) {
+                    const tracksErrorBody = await tracksResponse.text(); // Get the response as text
+                    console.error('Error fetching tracks for playlist:', tracksErrorBody);
+                    return { name: playlist.name, tracks: [], lyrics: null }; // Return empty tracks and null lyrics on error
                 }
-            }
-
-            if (tracksBody.items[0] && playlist.name != 'Unknown Playlist') {
-
-                return {
-                    playlist: playlist,
-                    tracks: tracksBody,
-                    lyrics: lyricsObject
-                };
-            }
-        }));
+                const tracksBody = await tracksResponse.json();
+            
+                let lyricsObject = null; // Initialize lyricsObject
+                let lyricsResponseOk = false;
+                while (!lyricsResponseOk) {
+                    const randomNumber = Math.floor(Math.random() * tracksBody.items.length);
+                    const randomTitle = tracksBody.items[randomNumber].track.name;
+                    const randomArtist = tracksBody.items[randomNumber].track.artists[0].name;
+            
+                    const lyricsResponse = await fetch(`https://api.lyrics.ovh/v1/${randomArtist}/${randomTitle}`);
+                    if (lyricsResponse.ok) {
+                        const randomLyrics = await lyricsResponse.json();
+                        const splitRandomLyrics = randomLyrics.lyrics.split(/\r?\n/);
+                        lyricsObject = {
+                            lyrics: splitRandomLyrics[0], // Store the first line of lyrics
+                            artist: randomArtist
+                        };
+                        lyricsResponseOk = true;
+                    }
+                }
+            
+                if (tracksBody.items[0] && playlist.name !== 'Unknown Playlist') {
+                    return {
+                        playlist: playlist,
+                        tracks: tracksBody,
+                        lyrics: lyricsObject // Ensure lyrics are included
+                    };
+                }
+            }));
 
         // Store user data and playlists with tracks in local storage
         res.send(`
@@ -147,7 +136,7 @@ router.route('/callback').get(async (req, res) => {
                     name: '${userBody.display_name}',
                     email: '${userBody.email}',
                     image: '${userBody.images[0]?.url || ''}',
-                    playlists: ${JSON.stringify(playlistsWithTracks)}
+                    playlists: ${JSON.stringify(playlistsWithTracks)} // This includes the lyrics
                 }));
                 window.location.href = '/playlistReceipt.html'; // Redirect to user profile page
             </script>
