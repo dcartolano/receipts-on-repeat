@@ -160,24 +160,19 @@ router.route('/callback').get(async (req, res) => {
         }));
 
         // Store user data and playlists with tracks in local storage
-        // res.send(`
-        //     <script>
-        //         localStorage.setItem('userData', JSON.stringify({
-        //             name: '${userBody.display_name}',
-        //             email: '${userBody.email}',
-        //             image: '${userBody.images[0]?.url || ''}',
-        //             playlists: ${JSON.stringify(playlistsWithTracks)}
-        //         }));
-        //         // window.location.href = '/userProfile.html'; // Redirect to user profile page
-        //     </script>
-        // `);
-        // return res.json({
-        //     name: userBody.display_name,
-        //     email: userBody.email,
-        //     image: userBody.images[0]?.url || '',
-        //     playlists: playlistsWithTracks
-        // })
-        return res.send("Success!");
+        res.send(`
+            <script>
+                localStorage.setItem('userData', JSON.stringify({
+                    name: '${userBody.display_name}',
+                    email: '${userBody.email}',
+                    image: '${userBody.images[0]?.url || ''}',
+                    playlists: ${JSON.stringify(playlistsWithTracks)}
+                }));
+                // window.location.href = '/userProfile.html'; // Redirect to user profile page
+                window.location.assign('/userProfile');
+            </script>
+        `);
+        // res.redirect('http://localhost:3000/userProfile');
     } catch (error) {
         console.error('Fetch error before token:', error);
         res.send('Error during authentication');
