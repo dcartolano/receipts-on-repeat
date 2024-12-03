@@ -5,14 +5,14 @@ const HomePage = () => {
 
     const handleLogin = async () => {
         // Redirect to the Spotify login route on the server
-        // window.location.href = 'http://localhost:3000/spotify/login'; // Adjust based on your server's URL
+        window.location.href = 'http://localhost:3000/spotify/login'; // Adjust based on your server's URL
         // window.location.href = '/spotify/login'; // Adjust based on your server's URL
-        const response = await fetch('/spotify/login', {
-            method: "GET",
-        })
-        if (response.ok){
-            console.log(response.json());
-        }
+        // const response = await fetch('/spotify/login', {
+        //     method: "GET",
+        // })
+        // if (response.ok){
+        //     console.log(response.json());
+        // }
         // console.log()
     };
 
