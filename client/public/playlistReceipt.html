@@ -6,6 +6,28 @@
     <title>User Profile</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .playlist-outer {
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            align-items: center; /* Centers vertically if needed */
+            height: 100%;
+        }
+        .playlist-container {
+            text-align: center; /* Center the text */
+            width: 40%;
+        }
+        /* Remove list markers */
+        #songList {
+            list-style-type: none; /* Remove default list markers */
+            padding: 0; /* Remove padding */
+        }
+        .song-item {
+            display: flex; /* Use flexbox for the items */
+            justify-content: space-between; /* Space between title and price */
+            padding: 5px 0; /* Add some vertical padding */
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -16,9 +38,9 @@
                 <img id="userImage" alt="Profile" class="img-fluid rounded-circle" style="width: 150px; height: 150px; display: none;">
             </div>
         </div>
-        <div class="mt-4">
-            <h2>Your Playlists</h2>
-            <ul id="playlists" class="list-group"></ul>
+        <h2>Your Playlist</h2>
+        <div class="playlist-outer">
+            <div id="playlist" class="border p-3 playlist-container"></div>
         </div>
         <div class="text-center mt-3">
             <a href="/" class="btn btn-primary">Go Back</a>
@@ -30,10 +52,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
-    
     <script>
-        // Function to populate user data and playlists
-        function populateUserData(name, email, image, playlists) {
+        // Function to populate user data and playlist
+        function populateUserData(name, email, image, playlist) {
             document.getElementById('userName').innerText = 'Welcome, ' + name + '!';
             document.getElementById('userEmail').innerText = 'Email: ' + email;
             if (image) {
@@ -42,38 +63,54 @@
                 userImage.style.display = 'block';
             }
 
-            const playlistsContainer = document.getElementById('playlists');
-            playlists.forEach(playlist => {
-                console.log('playlist: ',playlist);
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item';
-                listItem.innerHTML = `<strong>${playlist.playlist.name}</strong> - ${playlist.tracks.total} tracks`;
-                
-                // Create a sublist for the track names
-                const trackList = document.createElement('ul');
-                trackList.className = 'list-group mt-2';
+            const playlistContainer = document.getElementById('playlist');
+            playlistContainer.innerHTML = ''; // Clear previous content
 
-                // Check if tracks is an array and then iterate over it
-                if (Array.isArray(playlist.tracks.items)) {
-                    playlist.tracks.items.forEach(track => {
-                        const trackItem = document.createElement('li');
-                        trackItem.className = 'list-group-item';
-                        trackItem.innerText = track.track.name;
-                        trackList.appendChild(trackItem);
-                    });
-                } else {
-                    console.error('Tracks is not an array:', playlist.tracks.items);
-                }
-                
-                listItem.appendChild(trackList);
-                playlistsContainer.appendChild(listItem);
+            // Display playlist name
+            const playlistName = document.createElement('h3');
+            playlistName.innerText = playlist.playlist.name;
+            playlistContainer.appendChild(playlistName);
+
+            // Create a list for song names and prices
+            const songList = document.createElement('ul');
+            songList.id = 'songList'; // Set the ID for styling
+            let total = 0; // Initialize total price
+
+            playlist.tracks.items.forEach(track => {
+                const songItem = document.createElement('li');
+                songItem.className = 'song-item'; // Add class for styling
+
+                const fakePrice = (Math.random() * 10 + 1).toFixed(2); // Generate a fake price between $1.00 and $10.00
+                total += parseFloat(fakePrice); // Add to total
+
+                // Create a span for the song name
+                const songName = document.createElement('span');
+                songName.innerText = track.track.name;
+
+                // Create a span for the price
+                const price = document.createElement('span');
+                price.innerText = `$${fakePrice}`;
+
+                // Append song name and price to the song item
+                songItem.appendChild(songName);
+                songItem.appendChild(price);
+
+                // Append the song item to the song list
+                songList.appendChild(songItem);
             });
+
+            playlistContainer.appendChild(songList);
+
+            // Display total
+            const totalElement = document.createElement('h4');
+            totalElement.innerText = `Total: $${total.toFixed(2)}`;
+            playlistContainer.appendChild(totalElement);
         }
 
         // Fetch user data from local storage
         const userData = JSON.parse(localStorage.getItem('userData'));
-        if (userData) {
-            populateUserData(userData.name, userData.email, userData.image, userData.playlists);
+        if (userData && userData.playlists.length > 0) {
+            populateUserData(userData.name, userData.email, userData.image, userData.playlists[0]); // Display the first playlist
         } else {
             document.getElementById('userName').innerText = 'User data not found.';
         }
