@@ -10,12 +10,13 @@
         .playlist-outer {
             display: flex;
             justify-content: center; /* Centers horizontally */
-            align-items: center; /* Centers vertically if needed */
-            height: 100%;
+            align-items: flex-start; /* Align items to the start vertically */
+            height: auto; /* Allow height to be determined by content */
         }
         .playlist-container {
             text-align: center; /* Center the text */
             width: 40%;
+            min-height: fit-content;
         }
         /* Remove list markers */
         #songList {
@@ -24,8 +25,15 @@
         }
         .song-item {
             display: flex; /* Use flexbox for the items */
-            justify-content: space-between; /* Space between title and price */
+            justify-content: center; /* Center song name and artist name */
             padding: 5px 0; /* Add some vertical padding */
+        }
+        .song-item span {
+            margin: 0 5px; /* Add some margin between song name and artist name */
+        }
+        .img-ultra {
+            width: 30%;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -66,6 +74,16 @@
             const playlistContainer = document.getElementById('playlist');
             playlistContainer.innerHTML = ''; // Clear previous content
 
+            // Create and display playlist image if it exists
+            const playlistImageUrl = playlist.playlist.images[0]?.url; // Use optional chaining to safely access the URL
+            if (playlistImageUrl) {
+                const playlistImage = document.createElement('img');
+                playlistImage.src = playlistImageUrl;
+                playlistImage.alt = 'Playlist Image';
+                playlistImage.className = 'img-ultra'; // Add Bootstrap class for responsive image
+                playlistContainer.appendChild(playlistImage);
+            }
+
             // Display playlist name
             const playlistName = document.createElement('h3');
             playlistName.innerText = playlist.playlist.name;
@@ -78,7 +96,7 @@
 
             playlist.tracks.items.forEach(track => {
                 const songItem = document.createElement('li');
-                songItem.className = 'song-item'; // Add class for styling
+                songItem.className = 'song-item d-flex justify-content-between'; // Use flexbox for alignment
 
                 const fakePrice = (Math.random() * 10 + 1).toFixed(2); // Generate a fake price between $1.00 and $10.00
                 total += parseFloat(fakePrice); // Add to total
@@ -86,10 +104,12 @@
                 // Create a span for the song name
                 const songName = document.createElement('span');
                 songName.innerText = track.track.name;
+                songName.className = 'text-left'; // Align text to the left
 
                 // Create a span for the price
                 const price = document.createElement('span');
                 price.innerText = `$${fakePrice}`;
+                price.className = 'text-right'; // Align text to the right
 
                 // Append song name and price to the song item
                 songItem.appendChild(songName);
@@ -105,6 +125,14 @@
             const totalElement = document.createElement('h4');
             totalElement.innerText = `Total: $${total.toFixed(2)}`;
             playlistContainer.appendChild(totalElement);
+
+            // Display lyrics at the bottom of the playlist container
+            if (playlist.lyrics) {
+                const lyricsElement = document.createElement('p');
+                lyricsElement.innerText = `"${playlist.lyrics.lyrics}" - ${playlist.lyrics.artist}`; // Assuming playlist.artist contains the artist's name
+                lyricsElement.style.fontSize = '0.8em';
+                playlistContainer.appendChild(lyricsElement);
+            }
         }
 
         // Fetch user data from local storage
