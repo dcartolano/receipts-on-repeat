@@ -3,9 +3,17 @@ import React, { useState, useEffect } from 'react';
 const HomePage = () => {
     const [user, setUser] = useState(null);
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         // Redirect to the Spotify login route on the server
-        window.location.href = 'http://localhost:3000/spotify/login'; // Adjust based on your server's URL
+        // window.location.href = 'http://localhost:3000/spotify/login'; // Adjust based on your server's URL
+        // window.location.href = '/spotify/login'; // Adjust based on your server's URL
+        const response = await fetch('/spotify/login', {
+            method: "GET",
+        })
+        if (response.ok){
+            console.log(response.json());
+        }
+        // console.log()
     };
 
     // Fetch user data after successful login
@@ -28,13 +36,13 @@ const HomePage = () => {
         <main>
             <h1>Receipts on Repeat</h1>
             <button onClick={handleLogin}>Login with Spotify</button>
-            {user && (
+            {user?
                 <div>
                     <h2>Welcome, {user.name}!</h2>
                     <p>Email: {user.email}</p>
                     {user.image && <img src={user.image} alt="Profile" />}
                 </div>
-            )}
+            : <p>please sign in!</p>}
         </main>
     );
 };
