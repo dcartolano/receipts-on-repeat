@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const router = express.Router();
-const client_id = process.env.CLIENT_ID; 
+const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET; // Ensure CLIENT_SECRET is loaded from .env
 const redirect_uri = 'http://localhost:3000/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
 
@@ -23,7 +23,7 @@ router.route('/login').get((_req, res) => {
     const state = generateRandomString(16);
     const scope = 'user-read-private user-read-email playlist-read-private'; // Adjust scopes as needed
 
-    res.redirect('https://accounts.spotify.com/authorize?' + 
+    res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
             response_type: 'code',
             client_id: client_id,
@@ -86,13 +86,13 @@ router.route('/callback').get(async (req, res) => {
             return res.send('Error fetching user playlists: ' + playlistsErrorBody);
         }
         const playlistsBody = await playlistsResponse.json();
-        console.log('playlistsBody on line 89: ', playlistsBody)
+        // console.log('playlistsBody on line 89: ', playlistsBody)
 
         const filteredPlaylists = playlistsBody.items.filter((playlist) => !(!playlist || !playlist.id));
 
         // Fetch tracks for each playlist
         // const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
-            const playlistsWithTracks = await Promise.all(filteredPlaylists.map(async (playlist) => {
+        const playlistsWithTracks = await Promise.all(filteredPlaylists.map(async (playlist) => {
             // if (!playlist || !playlist.id) {
             //     console.error('Invalid playlist object:', playlist);
             //     continue;
@@ -107,16 +107,37 @@ router.route('/callback').get(async (req, res) => {
             }
             const tracksBody = await tracksResponse.json();
 
-            if (tracksBody.items[0] && playlist.name != 'Unknown Playlist') {
-            //console.log(tracksBody.items[0].track.name)
-            // console.log('playlist on line 108: ', playlist)
-            // console.log('tracksBody on line 109: ', tracksBody.items)
+            let lyricsObject;
+            let lyricsResponseOk = false;
+            while (!lyricsResponseOk) {
+                const randomNumber = Math.floor(Math.random() * tracksBody.items.length);
+                console.log(randomNumber);
 
-            return {
-                playlist: playlist,
-                tracks: tracksBody // Get track names
-            };
-        }
+                console.log('tracksbody.items[randomNumber].track.name: ', tracksBody.items[randomNumber].track.name);
+
+                const randomTitle = await tracksBody.items[randomNumber].track.name;
+                const randomArtist = await tracksBody.items[randomNumber].track.artists[0].name;
+
+                const lyricsResponse = await fetch(`https://api.lyrics.ovh/v1/${randomArtist}/${randomTitle}`);
+                if (lyricsResponse.ok) {
+                    const randomLyrics = await lyricsResponse.json();
+                    const splitRandomLyrics = await randomLyrics.lyrics.split(/\r?\n/);
+                    lyricsObject = {
+                        lyrics: splitRandomLyrics[0],
+                        artist: randomArtist
+                    }
+                    lyricsResponseOk = true;
+                }
+            }
+
+            if (tracksBody.items[0] && playlist.name != 'Unknown Playlist') {
+
+                return {
+                    playlist: playlist,
+                    tracks: tracksBody,
+                    lyrics: lyricsObject
+                };
+            }
         }));
 
         // Store user data and playlists with tracks in local storage
