@@ -6,8 +6,6 @@ import HomePage from './pages/HomePage'; // Ensure the path is correct
 import ErrorPage from './pages/Error';
 import PlaylistReceipt from './pages/PlaylistReceipt';
 import UserProfile from './pages/UserProfile';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
     {
