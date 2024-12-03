@@ -172,6 +172,14 @@ router.route('/callback').get(async (req, res) => {
                 window.location.assign('/userProfile');
             </script>
         `);
+        // res.json({
+        //     userData: {
+        //         name: userBody.display_name,
+        //         email: userBody.email,
+        //         image: userBody.images[0]?.url || '',
+        //         playlists: playlistsWithTracks
+        //     }
+        // });
         // res.redirect('http://localhost:3000/userProfile');
     } catch (error) {
         console.error('Fetch error before token:', error);
