@@ -34,15 +34,16 @@ const HomePage = () => {
 
     return (
         <main>
-            <h1>Receipts on Repeat</h1>
-            <button onClick={handleLogin}>Login with Spotify</button>
-            {user?
-                <div>
-                    <h2>Welcome, {user.name}!</h2>
-                    <p>Email: {user.email}</p>
-                    {user.image && <img src={user.image} alt="Profile" />}
-                </div>
-            : <p>please sign in!</p>}
+            <div className='homePage-main-box'>
+                <h1 className='homePage-header-text'>Receipts on Repeat</h1>
+                <button onClick={handleLogin}>Login with Spotify</button>
+                {user?
+                    <div>
+                        <h2>Welcome, {user.name}!</h2>
+                        <p>Email: {user.email}</p>
+                        {user.image && <img src={user.image} alt="Profile" />}
+                    </div> : <p className='please-sign-in'>please sign in!</p>}
+            </div>
         </main>
     );
 };
