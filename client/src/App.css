@@ -3,6 +3,15 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-width: 100%;
+  height: 100%;
+  background: linear-gradient(30deg, 
+    #97d4e8, 
+    #6ec6e9, 
+    #32c2f1,
+    #315cdf 
+  );
+  background-size: cover;
 }
 
 .logo {
@@ -43,13 +52,19 @@
 
 .playlistcard-container {
   margin: 10px;
-  padding: 2px;
-  background-color: beige;
+  
+  /* background-color: rgb(225, 227, 240); */
 }
 
 .playlist-container {
   width: 40%;
-  min-height: fit-content;
+  background-image: url('./assets/crumpled-paper.jpg'); /* Adjust the path */
+  background-size: cover; /* This will cover the entire div */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-position: center; /* Centers the image */
+  min-height: fit-content; /* Allows the div to grow based on content */
+  padding: 20px; /* Optional: adds some padding for better content spacing */
+  border-radius: 8px; /* Optional: adds rounded corners for a softer look */
 }
 
 .playlist-outer {
@@ -61,6 +76,15 @@
 
 .playlist-button-item {
   width: 40%;
+  /* background-color: rgb(214, 217, 233); */
+  font-size: larger;
+  margin: 10px;
+  background: linear-gradient(30deg, 
+    #aed8e6, /* Light blue */
+    #97cfe5, /* Sky blue */
+    #99d3e7, /* Cool blue */
+    #aab9e3 /* Dark blue */
+  );
 }
 
 .playlist-buttons-outer {
@@ -70,4 +94,69 @@
   justify-content: center; /* Centers horizontally */
   /* align-items: flex-start;
   height: auto; */
+  flex: 1;
+}
+
+html, body {
+  height: 100%; /* Set height to 100% */
+  margin: 0; /* Remove default margin */
+}
+
+body {
+  display: flex; /* Use Flexbox */
+  flex-direction: column; /* Arrange children in a column */
+  min-height: 100vh; /* Minimum height of 100% of the viewport height */
+  /* background: linear-gradient(to bottom, lightblue, darkblue); */
+  
+}
+
+.light-blue {
+  background: linear-gradient(30deg, #aed8e6, #97cfe5, #99d3e7, #aab9e3);
+}
+
+.orange {
+  background: linear-gradient(30deg, #f1dab7, #ecc59f, #e8c278, #ef9556);
+}
+
+.red {
+  background: linear-gradient(30deg, #fcc4c4, #ec9c9c, #ea7b7b, #df5e5e);
+}
+
+.green {
+  background: linear-gradient(30deg, #b9eab9, #90e690, #65dc65, #4dd04d);
+}
+
+.purple {
+  background: linear-gradient(30deg, #e1c1fe, #b78de3, #b366ff, #ab73e3);
+}
+
+.bodyText {
+  font-weight: 400;
+  font-variant: small-caps;
+  font-size: x-large;
+}
+
+.userProfile-button {
+  margin-bottom: 20%;
+  margin-top: 10%;
+}
+
+.welcomeUser {
+  border: 10px;
+  padding-top: 14px;
+  padding-bottom: 1px;
+}
+.welcomeUser-outer {
+  background: linear-gradient(30deg, 
+    #f6fcff, 
+    hsl(200, 100%, 99%), 
+    #f6fdff, 
+    #eff6ff
+  );
+  border: 10px;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 20px;
+  border-radius: 15px; /* Adjust the value for more or less rounding */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }

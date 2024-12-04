@@ -78,11 +78,24 @@ const Receipt = ({ playlist }) => {
     };
 
     return (
+        
         <div className="container mt-5">
+            <div className='welcomeUser-outer'>
+                <div className='welcomeUser'>
+                    {userData ? (
+                        <div className="text-center">
+                            <h2>Welcome, {userData.name}!</h2>
+                            <p>Email: {userData.email}</p>
+                        </div>
+                    ) : (
+                        <p>User data not found.</p>
+                    )}
+                </div>
+            </div>
             {userData ? (
                 <div className="text-center">
-                    <h2>Welcome, {userData.name}!</h2>
-                    <p>Email: {userData.email}</p>
+                    {/* <h2>Welcome, {userData.name}!</h2>
+                    <p>Email: {userData.email}</p> */}
                     {userData.image && <img src={userData.image} alt="Profile" className="img-fluid rounded-circle" style={{ width: '150px', height: '150px' }} />}
                     {playlist ? (
                         renderPlaylist(playlist) // Render the passed playlist
