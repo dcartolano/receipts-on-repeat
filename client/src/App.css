@@ -260,12 +260,12 @@ body {
   display: inline-block;
 }
 
-/* .receipt-font { */
+.receipt-font {
   /* font-family:  "Monospace", "Courier New", "Monaco",  monospace, monospace; */
   /* font-family:  monospace; */
   /* font-style: bold; */
-  /* font-weight: 350; */
-/* } */
+  font-weight: 350;
+}
 
 .artist-font {
   font-style: italic;
