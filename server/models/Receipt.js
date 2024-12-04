@@ -4,6 +4,10 @@ import lyricsSchema from './Lyrics.js';
 import tracksSchema from './Tracks.js';
 
 const receiptSchema = new Schema({
+    comment: {
+        type: String,
+        required: false
+    },
     imageUrl: {
         type: String,
         required: true
@@ -11,7 +15,8 @@ const receiptSchema = new Schema({
     lyrics: lyricsSchema,
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: false
     },
     owner: {
         type: String,
