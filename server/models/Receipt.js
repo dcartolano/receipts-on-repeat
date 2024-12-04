@@ -4,13 +4,11 @@ import lyricsSchema from './Lyrics.js';
 import tracksSchema from './Tracks.js';
 
 const receiptSchema = new Schema({
-    // playlists: {},
     imageUrl: {
         type: String,
         required: true
     },
-    lyrics: {lyricsSchema},
-    // lyrics: lyricsSchema,
+    lyrics: lyricsSchema,
     name: {
         type: String,
         required: true
@@ -40,7 +38,6 @@ const receiptSchema = new Schema({
         type: String,
         required: true
     },
-
 });
 
 const Receipt = model('Receipt', receiptSchema);
