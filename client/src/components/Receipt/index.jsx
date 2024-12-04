@@ -45,6 +45,7 @@ const Receipt = ({ playlist }) => {
             <div>
             <div className='playlist-outer'>
                 <div key={playlist.id} className="playlist-container border p-3 mt-3">
+                    <img src={playlist.imageUrl} alt="Playlist image from Spotify" class="playlistImage"/>
                     <h3>{playlist.name}</h3>
                     <ul id="songList" className="list-unstyled">
                         {playlist.tracks.map((track) => {
@@ -73,8 +74,8 @@ const Receipt = ({ playlist }) => {
                             "{playlist.lyrics.lyrics}" - {playlist.lyrics.artist}
                         </p>
                     )}
-                    <img src={playlist.qrCode} alt="" />
-                    <img src={playlist.spotifyCode} alt="" />
+                    <img src={playlist.qrCode} alt="Scannable QR Code with link to the playlist" />
+                    <img src={playlist.spotifyCode} alt="Scannable Spotify Code with link to the playlist" />
                 </div>
                 </div>
                 <p>{playlist.comment}</p>
