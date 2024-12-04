@@ -152,13 +152,35 @@ router.route('/callback').get(async (req, res) => {
                 }
             }
 
+            const pad = (num) => {
+                num = num.toString();
+                while (num.length < 2) num = "0" + num;
+                return num;
+            }
+
+            const lessThanMinute = (duration) => {
+                if (duration < 60000) {
+                    return duration/1000
+                } else {
+                    return ((duration/1000/60)%(Math.floor((duration/1000/60))))*(60)
+                }
+            }
+
             const tracksArray = await tracksBody.items.map((item) => {
                 return {
                     artist: item.track.artists[0].name,
-                    duration: `${Math.floor(item.track.duration_ms/1000/60)}:${Math.floor(((item.track.duration_ms/1000/60)%(Math.floor((item.track.duration_ms/1000/60))))*(60))}`,
+                    duration: `${Math.floor(item.track.duration_ms/1000/60)}.${pad(Math.floor(lessThanMinute(item.track.duration_ms)))}`,
                     name: item.track.name
                 }
             });
+
+            if (playlist.tracks.total > tracksBody.limit) {
+                tracksArray.push({
+                    artist: `various artists`,
+                    duration: '0.00',
+                    name: `+ ${playlist.tracks.total - tracksBody.limit} add'l tracks`
+                })
+            };
 
             if (tracksBody.items[0] && playlist.name != 'Unknown Playlist') {
                 return {
