@@ -38,50 +38,63 @@ const Receipt = ({ playlist }) => {
     }, []);
 
     const renderPlaylist = (playlist) => {
-        // let totalPrice = 0; // Initialize total price for the current playlist
-        let totalPrice = '0.00'; // Initialize total price for the current playlist
-    
-        return (
-            <div>
+    let totalPrice = '0.00'; // Initialize total price for the current playlist
+
+    return (
+        <div>
             <div className='playlist-outer'>
                 <div key={playlist.id} className="playlist-container border p-3 mt-3 receipt-font">
-                    <img src={playlist.imageUrl} alt="Playlist image from Spotify" className="playlist-image"/>
+                    <img src={playlist.imageUrl} alt="Playlist image from Spotify" className="playlist-image" />
                     <h3>{playlist.name}</h3>
                     <ul id="songList" className="list-unstyled">
                         {playlist.tracks.map((track) => {
-                        //     const fakePrice = (Math.random() * 10 + 1).toFixed(2); // Generate a fake price
-                            // totalPrice += parseFloat(fakePrice); // Accumulate total price
-                            // {totalPrice += Number(track.duration)}
-                            {totalPrice = timeSum(totalPrice, track.duration)}
+                            totalPrice = timeSum(totalPrice, track.duration);
                             return (
-                        
                                 <li key={track.id} className="song-item d-flex justify-content-between align-items-end">
                                     <div className="text-left wrap-indent">
                                         <span>{track.name}</span>
                                         <span className="mx-2 artist-font">by {track.artist || 'Unknown Artist'}</span>
                                     </div>
-                                    {/* <span className="text-right">${fakePrice}</span> */}
-                                    <span className="text-right ">${track.duration}</span>
+                                    <span className="text-right">${track.duration}</span>
                                 </li>
-                            )
-                            }
-                        )}
+                            );
+                        })}
                     </ul>
-                    {/* <h4>Total: ${totalPrice.toFixed(2)}</h4> */}
                     <h4>Total: ${totalPrice}</h4>
                     {playlist.lyrics && (
                         <p style={{ fontSize: '0.8em' }}>
                             "{playlist.lyrics.lyrics}" - {playlist.lyrics.artist}
                         </p>
                     )}
-                    <img src={playlist.qrCode} alt="Scannable QR Code with link to the playlist" className = "codes"/>
-                    <img src={playlist.spotifyCode} alt="Scannable Spotify Code with link to the playlist" className = "codes"/>
+                    <img src={playlist.qrCode} alt="Scannable QR Code with link to the playlist" className="codes" />
+                    <img src={playlist.spotifyCode} alt="Scannable Spotify Code with link to the playlist" className="codes" />
                 </div>
-                </div>
-                <p>{playlist.comment}</p>
             </div>
-        );
-    };
+            {/* <div className="text-center mt-3">
+                {isEditing ? (
+                    <div>
+                        <textarea
+                            value={editedComment}
+                            onChange={handleCommentChange}
+                            rows="3"
+                            className="form-control"
+                        />
+                        <button onClick={handleSaveComment} className="btn btn-success mt-2">Save Comment</button>
+                    </div>
+                ) : (
+                    <div>
+                        <p className='playlist-comment'>{playlist.comment}</p>
+                        <button onClick={handleEditClick} className="btn btn-secondary">Edit Comment</button>
+                    </div>
+                )}
+            </div> */}
+            <div>
+                <p className='playlist-comment'>{playlist.comment}</p>
+                {/* <button onClick={handleEditClick} className="btn btn-secondary">Edit Comment</button> */}
+            </div>
+        </div>
+    );
+};
 
     return (
         
