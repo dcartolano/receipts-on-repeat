@@ -27,11 +27,13 @@ app.use(express.json());
 
 // Serve static files from the React app
 // app.use(express.static(path.join(process.cwd(), 'client/build'))); // Use process.cwd() for better compatibility
-app.use(express.static('../client/dist'));
 
-// if (process.env.NODE_ENV === 'production') {
-    // app.use(express.static(path.join(__dirname, '../client/dist')));
-// }
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
+} else {
+    app.use(express.static('../client/dist'));
+}
 
 app.use(routes);
 // Catch-all route to serve the React app
