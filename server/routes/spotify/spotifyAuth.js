@@ -110,7 +110,7 @@ router.route('/callback').get(async (req, res) => {
 
             const encodedPlaylistUrl = encodeURIComponent(playlist.external_urls.spotify);
             const qrCode = `http://api.qrserver.com/v1/create-qr-code/?data=${encodedPlaylistUrl}&size=100x100`;
-            const spotifyCode = `https://scannables.scdn.co/uri/plain/jpeg/000000/white/380/${playlist.uri}`;
+            const spotifyCode = `https://scannables.scdn.co/uri/plain/jpeg/000000/white/640/${playlist.uri}`;
 
             const tracksResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, userOptions);
             if (!tracksResponse.ok) {
