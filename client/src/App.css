@@ -320,6 +320,7 @@ body {
   margin-right: 1.5%;
   font-size: xx-large;
   font-weight: 200;
+  margin-bottom: 3%;
 }
 
 .entry-page-welcome-box-outer {
@@ -329,15 +330,40 @@ body {
 .entry-button {
   border-radius: 6px;
   background: linear-gradient(30deg, 
-    #cae8f2, /* Light blue */
-    #add5e5, /* Sky blue */
-    #b0e2f1, /* Cool blue */
-    #a8d0ec /* Dark blue */
+    #e6f8ff, 
+    #edfaff, 
+    #e7fbff, 
+    #e8f3ff
   );
-  
+  /* background: linear-gradient(30deg, 
+    #cae8f2, 
+    #add5e5, 
+    #b0e2f1,
+    #a8d0ec 
+  ); */
 }
 
 .entry-button:hover {
+  filter: brightness(1.04);
+}
+
+.login-button {
+  border-radius: 6px;
+  /* background: linear-gradient(30deg, 
+    #ecfaff, 
+    #f7fdff, 
+    #effcff, 
+    #eff7ff
+  ); */
+  background: linear-gradient(30deg, 
+    #e6f8ff, 
+    #edfaff, 
+    #e7fbff, 
+    #e8f3ff
+  );
+}
+
+.login-button:hover {
   filter: brightness(1.04);
 }
 
@@ -358,8 +384,6 @@ body {
   width: 100%;
   margin-right: 15px
 }
-
-
 
 .external-api-logo {
   min-width: 70px;

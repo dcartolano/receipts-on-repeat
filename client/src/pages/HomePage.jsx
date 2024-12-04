@@ -36,7 +36,7 @@ const HomePage = () => {
         <main>
             <div className='homePage-main-box'>
                 <h1 className='homePage-header-text'>Receipts on Repeat</h1>
-                <button onClick={handleLogin}>Login with Spotify</button>
+                <button onClick={handleLogin} className='login-button'>Login with Spotify</button>
                 {user?
                     <div>
                         <h2>Welcome, {user.name}!</h2>
