@@ -42,6 +42,7 @@ const Receipt = ({ playlist }) => {
         let totalPrice = '0.00'; // Initialize total price for the current playlist
     
         return (
+            <div>
             <div className='playlist-outer'>
                 <div key={playlist.id} className="playlist-container border p-3 mt-3">
                     <h3>{playlist.name}</h3>
@@ -75,6 +76,8 @@ const Receipt = ({ playlist }) => {
                     <img src={playlist.qrCode} alt="" />
                     <img src={playlist.spotifyCode} alt="" />
                 </div>
+                </div>
+                <p>{playlist.comment}</p>
             </div>
         );
     };
