@@ -110,7 +110,7 @@ router.route('/callback').get(async (req, res) => {
 
             const encodedPlaylistUrl = encodeURIComponent(playlist.external_urls.spotify);
             const qrCode = `http://api.qrserver.com/v1/create-qr-code/?data=${encodedPlaylistUrl}&size=100x100`;
-            const spotifyCode = `https://scannables.scdn.co/uri/plain/jpeg/000000/white/640/${playlist.uri}`;
+            const spotifyCode = `https://scannables.scdn.co/uri/plain/jpeg/000000/white/380/${playlist.uri}`;
 
             const tracksResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, userOptions);
             if (!tracksResponse.ok) {
@@ -152,13 +152,35 @@ router.route('/callback').get(async (req, res) => {
                 }
             }
 
+            const pad = (num) => {
+                num = num.toString();
+                while (num.length < 2) num = "0" + num;
+                return num;
+            }
+
+            const lessThanMinute = (duration) => {
+                if (duration < 60000) {
+                    return duration/1000
+                } else {
+                    return ((duration/1000/60)%(Math.floor((duration/1000/60))))*(60)
+                }
+            }
+
             const tracksArray = await tracksBody.items.map((item) => {
                 return {
                     artist: item.track.artists[0].name,
-                    duration: `${Math.floor(item.track.duration_ms/1000/60)}:${Math.floor(((item.track.duration_ms/1000/60)%(Math.floor((item.track.duration_ms/1000/60))))*(60))}`,
+                    duration: `${Math.floor(item.track.duration_ms/1000/60)}.${pad(Math.floor(lessThanMinute(item.track.duration_ms)))}`,
                     name: item.track.name
                 }
             });
+
+            if (playlist.tracks.total > tracksBody.limit) {
+                tracksArray.push({
+                    artist: `various artists`,
+                    duration: '0.00',
+                    name: `+ ${playlist.tracks.total - tracksBody.limit} add'l tracks`
+                })
+            };
 
             if (tracksBody.items[0] && playlist.name != 'Unknown Playlist') {
                 return {
@@ -171,7 +193,8 @@ router.route('/callback').get(async (req, res) => {
                     tracks: tracksArray,
                     lyrics: lyricsObject,
                     qrCode: qrCode,
-                    spotifyCode: spotifyCode
+                    spotifyCode: spotifyCode,
+                    comment: 'Update this sample comment to share your thoughts on this playlist!'
                 };
             }
         }));

@@ -167,6 +167,13 @@ body {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.playlistImage {
+  width: 100px;
+  height: 100px;
+  filter: grayscale(1) contrast(100) brightness(1);
+  mix-blend-mode: multiply;
+}
+
 .homePage-main-box {
   background: linear-gradient(30deg, 
     #f6fcff, 

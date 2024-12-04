@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 // import apiRoutes from './api/index.js';
 import spotifyAuth from './spotify/spotifyAuth.js'; // Import the spotifyAuth route
 
-// Use the spotifyAuth route under /api/spotify
+// Use the spotifyAuth route under /spotify
 router.use('/spotify', spotifyAuth);
 
 // Use the other API routes

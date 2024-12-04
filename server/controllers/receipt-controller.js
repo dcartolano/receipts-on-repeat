@@ -5,7 +5,8 @@ export const getAllReceipts = async (req, res) => {
     try {
         const receipts = await Receipt.find();
 
-        res.json({ message: 'showing all receipts!', receipts });
+        // res.json({ message: 'showing all receipts!', receipts });
+        res.json({ receipts });
 
     } catch (error) {
         res.status(500).json({ message: error.message });

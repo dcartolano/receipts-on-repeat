@@ -6,9 +6,21 @@ import { createReceipt } from "../utils/Api.js";
 const UserProfile = () => {
     const userData = JSON.parse(localStorage.getItem('userData'));
     const playlists = userData?.playlists || [];
+
     const navigate = useNavigate(); // Hook to access the navigate function
 
-    const handlePlaylistClick = (playlist) => {
+    const handlePlaylistClick = async (playlist) => {
+            try {
+                const response = await createReceipt(playlist);
+
+                if (!response.ok) {
+                    throw new Error('something went wrong!');
+                }
+
+                console.log(response);
+            } catch (err) {
+                console.error(err);
+            };
         localStorage.setItem('selectedPlaylist', JSON.stringify(playlist)); // Store the selected playlist
         navigate('/playlistReceipt'); // Navigate to PlaylistReceipt
     };
@@ -59,4 +71,4 @@ const UserProfile = () => {
     );
 }
 
-export default UserProfile;
+    export default UserProfile;
