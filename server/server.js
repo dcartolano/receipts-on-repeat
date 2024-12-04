@@ -6,7 +6,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 import routes from './routes/index.js'
 // import path from 'node:path'
-// const __dirname = import.meta.dirname;
+// const __filename = fileURLToPath(import.meta.url);
+const __dirname = import.meta.dirname;
 
 await db();
 
