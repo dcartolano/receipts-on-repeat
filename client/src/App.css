@@ -65,6 +65,7 @@
   min-height: fit-content; /* Allows the div to grow based on content */
   padding: 20px; 
   border-radius: 8px; /* Optional: adds rounded corners for a softer look */
+  margin-bottom: 20px;
 }
 
 .playlist-outer {
@@ -85,13 +86,12 @@
     #99d3e7, /* Cool blue */
     #aab9e3 /* Dark blue */
   );
+  border-radius: 6px;
 }
 
 .playlist-button-item:hover {
   filter: brightness(1.04); /* Increase brightness by 20% */
 }
-
-
 
 .playlist-buttons-outer {
   align-items: center;
@@ -101,6 +101,32 @@
   /* align-items: flex-start;
   height: auto; */
   flex: 1;
+}
+
+.receipt-go-back-button {
+    margin-bottom: 60px;
+    margin-top: 6px;
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    background: linear-gradient(30deg, 
+      #a8daeb, /* Light blue */
+      #98d3ea, /* Sky blue */
+      #a2dff4, /* Cool blue */
+      #b4c3ed /* Dark blue */
+    );
 }
 
 html, body {
@@ -161,10 +187,10 @@ body {
   line-height: 1.5;
   border-radius: .25rem;
   background: linear-gradient(30deg, 
-    #aed8e6, /* Light blue */
-    #97cfe5, /* Sky blue */
-    #99d3e7, /* Cool blue */
-    #aab9e3 /* Dark blue */
+    #a8daeb, /* Light blue */
+    #98d3ea, /* Sky blue */
+    #a2dff4, /* Cool blue */
+    #b4c3ed /* Dark blue */
   );
 }
 
@@ -193,11 +219,16 @@ body {
 }
 
 .playlist-image {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: auto;
   filter: grayscale(1) contrast(100) brightness(1);
   mix-blend-mode: multiply;
-  margin: 5px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.receipt-playlist-name {
+  margin-bottom: 10px;
 }
 
 .homePage-main-box {
@@ -232,7 +263,7 @@ body {
   justify-content: space-between; /* Space between left and right elements */
   align-items: center; /* Center items vertically */
   padding: 10px 20px; /* Add some padding */
-  background-color: #f8f9fa; /* Light background color */
+  background-color: #ffffff; /* Light background color */
   border-bottom: 1px solid #dee2e6;
   border-radius: 15px; /* Adjust the value for more or less rounding */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Optional: border at the bottom */
@@ -297,10 +328,31 @@ body {
   font-style: italic;
 }
 
+.codes-section {
+  display: flex;
+  flex-direction: column;        /* Change to row to align items horizontally */
+  justify-content: center;     /* Center items horizontally */
+  align-items: center; 
+}
+
 .codes {
   margin: 5px;
-  max-width: 300px;
-  /* mix-blend-mode: multiply; */
+  max-width: 200px;
+  filter: grayscale(1) contrast(100) brightness(1);
+  mix-blend-mode: multiply;
+}
+
+.qr-code {
+  height: auto;
+  width: 120px;
+  margin-bottom: 10px;
+  margin-top: 4px;
+}
+
+.spotify-scannable-code {
+  width: auto;
+  height: 46px;
+  filter: invert(1);
 }
 
 .entry-page-welcome-box {
@@ -371,21 +423,74 @@ body {
   display: flex; /* Use flexbox for layout */
   justify-content: space-between; /* Space between left and right elements */
   align-items: center; /* Center items vertically */
-  padding: 20px; /* Add some padding */
+  padding: 10px 20px; /* Add some padding */
   background-color: #f8f9fa; /* Light background color */
   border-bottom: 1px solid #dee2e6;
   border-radius: 15px; /* Adjust the value for more or less rounding */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Optional: border at the bottom */
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 .footer-box-inside {
   display: flex; /* Use flexbox for inner layout */
   align-items: center; /* Center items vertically */
   width: 100%;
-  margin-right: 15px
+  flex-direction: column;
+  
 }
 
 .external-api-logo {
   min-width: 70px;
-  max-height: 40px;
+  max-height: 30px;
+  margin-left: 2px;
+}
+
+.footer-logo {
+  display: flex; /* Use flexbox for inner layout */
+  align-items: center;
+}
+
+.spotify-logo {
+  width: auto;
+  height: 50px;
+}
+.lyrics-logo {
+  width: auto;
+}
+
+.lyrics-box {
+  margin-left: 10px;
+  margin-top: 6px;
+}
+
+.spotify-box {
+  margin-top: 6px;
+}
+
+.footer-creators-text {
+  margin: 1px;
+  display: flex;
+  flex-direction: row;
+}
+
+.creators-text {
+  font-weight: 300;
+  margin-bottom: 0;
+  font-weight: 350;
+}
+
+.creator-text-link {
+  color: rgb(24, 24, 24);
+  font-weight: 350;
+}
+
+.creator-text-link:hover {
+  color: linear-gradient(30deg, 
+    #e6f8ff, 
+    #edfaff, 
+    #e7fbff, 
+    #e8f3ff
+  );
+  font-weight: 350;
 }
