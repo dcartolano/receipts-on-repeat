@@ -63,7 +63,7 @@
   background-repeat: no-repeat; /* Prevents the image from repeating */
   background-position: center; /* Centers the image */
   min-height: fit-content; /* Allows the div to grow based on content */
-  padding: 20px; /* Optional: adds some padding for better content spacing */
+  padding: 20px; 
   border-radius: 8px; /* Optional: adds rounded corners for a softer look */
 }
 
@@ -87,6 +87,12 @@
   );
 }
 
+.playlist-button-item:hover {
+  filter: brightness(1.04); /* Increase brightness by 20% */
+}
+
+
+
 .playlist-buttons-outer {
   align-items: center;
   flex-direction: column;
@@ -107,7 +113,7 @@ body {
   flex-direction: column; /* Arrange children in a column */
   min-height: 100vh; /* Minimum height of 100% of the viewport height */
   /* background: linear-gradient(to bottom, lightblue, darkblue); */
-  
+  /* overflow: auto; */
 }
 
 .light-blue {
@@ -159,4 +165,83 @@ body {
   margin-bottom: 20px;
   border-radius: 15px; /* Adjust the value for more or less rounding */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.homePage-main-box {
+  background: linear-gradient(30deg, 
+    #f6fcff, 
+    hsl(200, 100%, 99%), 
+    #f6fdff, 
+    #eff6ff
+  );
+  border: 10px;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 20px;
+  border-radius: 15px; /* Adjust the value for more or less rounding */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  margin-top: 6%;
+}
+
+.homePage-header-text {
+  padding-top: 5%;
+  margin: 3%;
+}
+
+.please-sign-in {
+  padding: 2%;
+  padding-bottom: 2%;
+}
+
+.header-box {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between left and right elements */
+  align-items: center; /* Center items vertically */
+  padding: 10px 20px; /* Add some padding */
+  background-color: #f8f9fa; /* Light background color */
+  border-bottom: 1px solid #dee2e6;
+  border-radius: 15px; /* Adjust the value for more or less rounding */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Optional: border at the bottom */
+}
+
+.header-box-inside {
+  display: flex; /* Use flexbox for inner layout */
+  align-items: center; /* Center items vertically */
+  width: 100%;
+}
+
+.header-box-inside div {
+  margin-right: 15px; /* Space between image and title */
+}
+
+.application-title {
+  font-size: 24px; /* Adjust font size */
+  font-weight: bold; /* Make the title bold */
+}
+
+.nav-bar {
+  display: flex;
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+.nav-bar-link {
+  margin-left: 20px; /* Space between navigation links */
+  text-decoration: none; /* Remove underline from links */
+  color: #252525; /* Link color */
+  font-weight: 500; /* Adjust font weight */
+}
+
+.nav-bar-link:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+.application-title {
+  margin: 1%;
+}
+
+.application-image {
+  width: 50px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 15px; /* Space between image and title */
 }
