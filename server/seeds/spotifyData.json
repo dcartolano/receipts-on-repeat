@@ -1,0 +1,27 @@
+{
+    "comment": "Update this sample comment to share your thoughts on this playlist!",
+    "imageUrl": "https://artprojectsforkids.org/wp-content/uploads/2024/08/How-to-draw-a-duck.jpg",
+    "lyrics": {
+        "artist": "Ducks",
+        "lyrics": "quack quack quack quack !!"
+    },
+    "name": "music for ducks",
+    "owner": "mrduck",
+    "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=100x100",
+    "spotifyCode": "https://scannables.scdn.co/uri/plain/jpeg/000000/white/380/spotify:user:spotify:playlist:37i9dQZF1DXcBWIGoYBM5M",
+    "total": 2,
+    "tracks": [
+        {
+            "artist": "some ducks",
+            "duration": "4.19",
+            "name": "Bangers + Mash"
+        },
+        {
+            "artist": "more ducks",
+            "duration": "8.02",
+            "name": "quacking reloaded"
+        }
+    ],
+    "uri": "spotify:playlist:2zLdc7QDTIqi5jxcipqGQT",
+    "url": "https://open.spotify.com/playlist/2zLdc7QDTIqi5jxcipqGQT"
+}
