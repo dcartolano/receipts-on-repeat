@@ -3,10 +3,7 @@ dotenv.config();
 
 import mongoose from 'mongoose';
 
-// mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/receipts-on-repeat');
-// mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/receiptsDB');
-
-const MONGODB_URI = process.env.MONGODB_URI || '';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/receptsOnRepeat';
 
 const db = async () => {
     try {
@@ -20,5 +17,3 @@ const db = async () => {
 };
 
 export default db;
-
-// export default mongoose.connection;
