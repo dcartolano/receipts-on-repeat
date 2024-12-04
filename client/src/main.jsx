@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage'; // Ensure the path is correct
 import ErrorPage from './pages/Error';
 import PlaylistReceipt from './pages/PlaylistReceipt';
 import UserProfile from './pages/UserProfile';
+import SavedPlaylistReceipts from './pages/SavedReceipts';
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
             {
                 path: '/userProfile',
                 element: <UserProfile />,
+            },
+            {
+                path: '/SavedPlaylists',
+                element: <SavedPlaylistReceipts />,
             },
         ],
     },
