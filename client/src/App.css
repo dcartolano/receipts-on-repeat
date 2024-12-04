@@ -167,11 +167,12 @@ body {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.playlistImage {
+.playlist-image {
   width: 100px;
   height: 100px;
   filter: grayscale(1) contrast(100) brightness(1);
   mix-blend-mode: multiply;
+  margin: 5px;
 }
 
 .homePage-main-box {
@@ -251,4 +252,27 @@ body {
   width: 50px; /* Adjust the width as needed */
   height: auto; /* Maintain aspect ratio */
   margin-right: 15px; /* Space between image and title */
+}
+
+.wrap-indent {
+  padding-left: 2em;
+  text-indent: -2em;
+  display: inline-block;
+}
+
+/* .receipt-font { */
+  /* font-family:  "Monospace", "Courier New", "Monaco",  monospace, monospace; */
+  /* font-family:  monospace; */
+  /* font-style: bold; */
+  /* font-weight: 350; */
+/* } */
+
+.artist-font {
+  font-style: italic;
+}
+
+.codes {
+  margin: 10px;
+  max-width: 300px;
+  /* mix-blend-mode: multiply; */
 }
