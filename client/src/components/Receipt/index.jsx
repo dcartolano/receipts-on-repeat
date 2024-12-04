@@ -72,6 +72,8 @@ const Receipt = ({ playlist }) => {
                             "{playlist.lyrics.lyrics}" - {playlist.lyrics.artist}
                         </p>
                     )}
+                    <img src={playlist.qrCode} alt="" />
+                    <img src={playlist.spotifyCode} alt="" />
                 </div>
             </div>
         );
