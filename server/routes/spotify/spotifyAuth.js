@@ -16,12 +16,14 @@ router.route('/receipts').get(getAllReceipts).post(createReceipt);
 
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET; // Ensure CLIENT_SECRET is loaded from .env
-let redirect_uri;
-if (process.env.NODE_ENV != 'production') {
-    redirect_uri = 'http://localhost:3000/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
-} else {
-    redirect_uri = 'https://receipts-on-repeat-reloaded.onrender.com/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
-}
+// let redirect_uri;
+// if (process.env.NODE_ENV != 'production') {
+//     redirect_uri = 'http://localhost:3000/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
+// } else {
+//     redirect_uri = 'https://receipts-on-repeat-reloaded.onrender.com/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
+// }
+const redirect_uri = process.env.REDIRECT_URI;
+
 
 function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
