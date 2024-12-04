@@ -47,8 +47,8 @@ const UserProfile = () => {
                         <p>Please sign in to view your playlists!</p>
                     </div>
                 )}
-//                 <p>hello world!</p>
-//                 <button onClick={newReceipt}>test and store a receipt</button>
+                 {/* <p>hello world!</p>
+                 <button onClick={newReceipt}>test and store a receipt</button> */}
                 
             </div>
         </div>
