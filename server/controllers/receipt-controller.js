@@ -27,3 +27,31 @@ export const createReceipt = async (req, res) => {
         res.status(500).json({ error: err.message });
       }
 };
+
+export const updateComment = async (req, res) => {
+    try {
+        const receipt = await Receipt.create(req.body);
+
+        if (!receipt) {
+            return res.status(400).json({ Message: "something is wrong!' " });
+        }
+
+        res.status(200).json('receipt saved!');
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+      }
+};
+
+export const deleteComment = async (req, res) => {
+    try {
+        const receipt = await Receipt.create(req.body);
+
+        if (!receipt) {
+            return res.status(400).json({ Message: "something is wrong!' " });
+        }
+
+        res.status(200).json('receipt saved!');
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+      }
+};
