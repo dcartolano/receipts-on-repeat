@@ -16,7 +16,12 @@ router.route('/receipts').get(getAllReceipts).post(createReceipt);
 
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET; // Ensure CLIENT_SECRET is loaded from .env
-const redirect_uri = 'http://localhost:3000/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
+let redirect_uri;
+if (process.env.NODE_ENV != 'production') {
+    redirect_uri = 'http://localhost:3000/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
+} else {
+    redirect_uri = 'https://receipts-on-repeat-reloaded.onrender.com/spotify/callback'; // Ensure this matches your redirect URI in Spotify app settings
+}
 
 function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -100,8 +105,8 @@ router.route('/callback').get(async (req, res) => {
 
         // Fetch tracks for each playlist
         const playlistsWithTracks = await Promise.all(filteredPlaylists.map(async (playlist) => {
-        // // LEAVING IN CASE WE WANT TO GO BACK TO UTILIZING THIS METHOD THAT JAKE HAD ORIGINALLY SET UP
-        // const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
+            // // LEAVING IN CASE WE WANT TO GO BACK TO UTILIZING THIS METHOD THAT JAKE HAD ORIGINALLY SET UP
+            // const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
             // if (!playlist || !playlist.id) {
             //     console.error('Invalid playlist object:', playlist);
             //     continue;
@@ -160,16 +165,16 @@ router.route('/callback').get(async (req, res) => {
 
             const lessThanMinute = (duration) => {
                 if (duration < 60000) {
-                    return duration/1000
+                    return duration / 1000
                 } else {
-                    return ((duration/1000/60)%(Math.floor((duration/1000/60))))*(60)
+                    return ((duration / 1000 / 60) % (Math.floor((duration / 1000 / 60)))) * (60)
                 }
             }
 
             const tracksArray = await tracksBody.items.map((item) => {
                 return {
                     artist: item.track.artists[0].name,
-                    duration: `${Math.floor(item.track.duration_ms/1000/60)}.${pad(Math.floor(lessThanMinute(item.track.duration_ms)))}`,
+                    duration: `${Math.floor(item.track.duration_ms / 1000 / 60)}.${pad(Math.floor(lessThanMinute(item.track.duration_ms)))}`,
                     name: item.track.name
                 }
             });
