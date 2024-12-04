@@ -1,56 +1,60 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import PlaylistCard from "../components/PlaylistCard/index.jsx";
-// import { createReceipt } from "../utils/API.js";
 import { createReceipt } from "../utils/Api.js";
 
 const UserProfile = () => {
     const userData = JSON.parse(localStorage.getItem('userData'));
     const playlists = userData?.playlists || [];
-//     console.log(playlists);
     const navigate = useNavigate(); // Hook to access the navigate function
 
     const handlePlaylistClick = (playlist) => {
         localStorage.setItem('selectedPlaylist', JSON.stringify(playlist)); // Store the selected playlist
         navigate('/playlistReceipt'); // Navigate to PlaylistReceipt
     };
-  
-//     const newReceipt = async () => {
-//     try {
-//         const response = await createReceipt(playlists[1]);
-  
-//         if (!response.ok) {
-//           throw new Error('something went wrong!');
-//         }
-        
-//         console.log(response);
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     }
+
+    // Define gradient classes
+    const gradientClasses = [
+        'light-blue',
+        'orange',
+        'red',
+        'green',
+        'purple'
+    ];
 
     return (
-        <div>
-            
+        <div className="container mt-5">
+            <div className='welcomeUser-outer'>
+                <div className='welcomeUser'>
+                    {userData ? (
+                        <div className="text-center">
+                            <h2>Welcome, {userData.name}!</h2>
+                            <p>Email: {userData.email}</p>
+                        </div>
+                    ) : (
+                        <p>User data not found.</p>
+                    )}
+                </div>
+            </div>
             <div className='playlist-buttons-outer'>
-                <p>Your Playlists!</p>
+                <p className='bodyText'>Your Playlists!</p>
                 {playlists.length > 0 ? (
                     playlists.map((playlist, index) => (
-                        <div className='playlist-button-item' key={index} onClick={() => handlePlaylistClick(playlist)}>
-                            <PlaylistCard
-                                playlistName={playlist.name}
-                            />
-                        </div>
+                        <button 
+                            className={`playlist-button-item ${gradientClasses[index % gradientClasses.length]}`} 
+                            key={index} 
+                            onClick={() => handlePlaylistClick(playlist)}
+                        >
+                            <PlaylistCard playlistName={playlist.name}/>
+                        </button>
                     ))
                 ) : (
                     <div>
                         <p>Please sign in to view your playlists!</p>
                     </div>
                 )}
-                 {/* <p>hello world!</p>
-                 <button onClick={newReceipt}>test and store a receipt</button> */}
-                
             </div>
+            <a href="/" className="btn btn-primary userProfile-button">Go Back</a>
         </div>
     );
 }
