@@ -23,12 +23,12 @@ export const getAllReceipts =  () => {
   //   console.error('Failed to fetch questions:', error);
   //   throw error;
   // }
-  return fetch('/spotify/receipts'
-    , {
+  return fetch('/spotify/receipts', {
       method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
-  }
+  
 )
 };
