@@ -1,11 +1,14 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import spotifyAuth from './routes/spotify/spotifyAuth.js';
+import db from './config/connection.js';
 import dotenv from 'dotenv';
 import path from 'path';
 import routes from './routes/index.js'
 // import path from 'node:path'
 // const __dirname = import.meta.dirname;
+
+await db();
 
 dotenv.config();
 
