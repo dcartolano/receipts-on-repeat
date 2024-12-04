@@ -19,19 +19,20 @@ const Receipt = ({ playlist }) => {
     
         return (
             <div className='playlist-outer'>
-                <div key={playlist.playlist.id} className="playlist-container border p-3 mt-3">
-                    <h3>{playlist.playlist.name}</h3>
+                <div key={playlist.id} className="playlist-container border p-3 mt-3">
+                    <h3>{playlist.name}</h3>
                     <ul id="songList" className="list-unstyled">
-                        {playlist.tracks.items.map((track) => {
+                        {playlist.tracks.map((track) => {
                             const fakePrice = (Math.random() * 10 + 1).toFixed(2); // Generate a fake price
                             totalPrice += parseFloat(fakePrice); // Accumulate total price
                             return (
-                                <li key={track.track.id} className="song-item d-flex justify-content-between align-items-center">
+                                <li key={track.id} className="song-item d-flex justify-content-between align-items-center">
                                     <div className="text-left">
-                                        <span>{track.track.name}</span>
-                                        <span className="mx-2">by {track.track.artists[0]?.name || 'Unknown Artist'}</span>
+                                        <span>{track.name}</span>
+                                        <span className="mx-2">by {track.artist || 'Unknown Artist'}</span>
                                     </div>
                                     <span className="text-right">${fakePrice}</span>
+                                    {/* <span className="text-right">${track.duration}</span> */}
                                 </li>
                             );
                         })}

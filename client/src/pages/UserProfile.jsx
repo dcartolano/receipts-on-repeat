@@ -38,7 +38,7 @@ const UserProfile = () => {
                     playlists.map((playlist, index) => (
                         <div className='playlist-button-item' key={index} onClick={() => handlePlaylistClick(playlist)}>
                             <PlaylistCard
-                                playlistName={playlist.playlist.name}
+                                playlistName={playlist.name}
                             />
                         </div>
                     ))
