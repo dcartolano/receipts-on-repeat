@@ -99,8 +99,9 @@ router.route('/callback').get(async (req, res) => {
         const filteredPlaylists = playlistsBody.items.filter((playlist) => !(!playlist || !playlist.id));
 
         // Fetch tracks for each playlist
-        // const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
         const playlistsWithTracks = await Promise.all(filteredPlaylists.map(async (playlist) => {
+        // // LEAVING IN CASE WE WANT TO GO BACK TO UTILIZING THIS METHOD THAT JAKE HAD ORIGINALLY SET UP
+        // const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
             // if (!playlist || !playlist.id) {
             //     console.error('Invalid playlist object:', playlist);
             //     continue;
@@ -110,14 +111,6 @@ router.route('/callback').get(async (req, res) => {
             const encodedPlaylistUrl = encodeURIComponent(playlist.external_urls.spotify);
             const qrCode = `http://api.qrserver.com/v1/create-qr-code/?data=${encodedPlaylistUrl}&size=100x100`;
             const spotifyCode = `https://scannables.scdn.co/uri/plain/jpeg/000000/white/640/${playlist.uri}`;
-
-            // const qrResponse = await fetch(`http://api.qrserver.com/v1/create-qr-code/?data=${encodedPlaylistUrl}&size=100x100`);
-            // if (!qrResponse.ok) {
-            //     const qrErrorBody = await qrResponse.text(); // Get the response as text
-            //     console.error('Error fetching QR COde:', qrErrorBody);
-            //     return ''; // Return empty string on error
-            // }
-            // const qrCode = await qrResponse.json();
 
             const tracksResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, userOptions);
             if (!tracksResponse.ok) {
@@ -168,34 +161,6 @@ router.route('/callback').get(async (req, res) => {
             });
 
             if (tracksBody.items[0] && playlist.name != 'Unknown Playlist') {
-
-                // return {
-                //     playlist: playlist,
-                //     tracks: tracksBody,
-                //     lyrics: lyricsObject
-                // };
-
-                // return {
-                //     playlist: {
-                //         url: playlist.external_urls.spotify,
-                //         imageUrl: playlist.images[0].url,
-                //         name: playlist.name,
-                //         owner: playlist.owner.display_name,
-                //         total: playlist.tracks.total,
-                //         uri: playlist.uri
-                //     },
-                //     tracks: 
-                //         tracksBody.items.map((item) => {
-                //             {
-                //                 artist: item.track.artists[0].name,
-                //                 duration: 
-                //             }
-                //         })
-                //     ,
-                //     lyrics: lyricsObject,
-                //     qrCode: qrCode
-                // };
-
                 return {
                     url: playlist.external_urls.spotify,
                     imageUrl: playlist.images[0].url,
@@ -211,30 +176,6 @@ router.route('/callback').get(async (req, res) => {
             }
         }));
 
-        // const { lyrics } = playlistsWithTracks;
-        // const { playlist } = playlistsWithTracks;
-        // const { tracks } = playlistsWithTracks;
-
-
-        // const user = JSON.stringify({
-        //     name: userBody.display_name,
-        //     email: userBody.email,
-        //     image: userBody.images[0]?.url || ''
-        //     // image: userBody.images[0].url
-        // });
-        // const user = {
-        //     name: userBody.display_name,
-        //     email: userBody.email,
-        //     image: userBody.images[0]?.url || ''
-        //     // image: userBody.images[0].url
-        // };
-
-        // const playlists = JSON.stringify(playlistsWithTracks);
-        // const playlists = playlistsWithTracks;
-        // console.log('user: ', user);
-        // console.log('playlists: ', playlists);
-
-
         // Store user data and playlists with tracks in local storage
         res.send(`
             <script>
@@ -244,20 +185,10 @@ router.route('/callback').get(async (req, res) => {
                     image: '${userBody.images[0]?.url || ''}',
                     playlists: ${JSON.stringify(playlistsWithTracks)}
                 }));
-                
-                // window.location.href = '/userProfile.html'; // Redirect to user profile page
-                window.location.assign('/userProfile');
+                // window.location.href = '/userProfile.html'; // LEAVING THIS LINE IN CASE WE WANT TO GO BACK TO JAKE'S ORIGINAL METHOD
+                window.location.assign('/userProfile'); // Redirect to user profile page
             </script>
         `);
-        // res.json({
-        //     userData: {
-        //         name: userBody.display_name,
-        //         email: userBody.email,
-        //         image: userBody.images[0]?.url || '',
-        //         playlists: playlistsWithTracks
-        //     }
-        // });
-        // res.redirect('http://localhost:3000/userProfile');
     } catch (error) {
         console.error('Fetch error before token:', error);
         res.send('Error during authentication');
