@@ -44,8 +44,8 @@ const Receipt = ({ playlist }) => {
         return (
             <div>
             <div className='playlist-outer'>
-                <div key={playlist.id} className="playlist-container border p-3 mt-3">
-                    <img src={playlist.imageUrl} alt="Playlist image from Spotify" class="playlistImage"/>
+                <div key={playlist.id} className="playlist-container border p-3 mt-3 receipt-font">
+                    <img src={playlist.imageUrl} alt="Playlist image from Spotify" className="playlist-image"/>
                     <h3>{playlist.name}</h3>
                     <ul id="songList" className="list-unstyled">
                         {playlist.tracks.map((track) => {
@@ -55,13 +55,13 @@ const Receipt = ({ playlist }) => {
                             {totalPrice = timeSum(totalPrice, track.duration)}
                             return (
                         
-                                <li key={track.id} className="song-item d-flex justify-content-between align-items-center">
-                                    <div className="text-left">
+                                <li key={track.id} className="song-item d-flex justify-content-between align-items-end">
+                                    <div className="text-left wrap-indent">
                                         <span>{track.name}</span>
-                                        <span className="mx-2">by {track.artist || 'Unknown Artist'}</span>
+                                        <span className="mx-2 artist-font">by {track.artist || 'Unknown Artist'}</span>
                                     </div>
                                     {/* <span className="text-right">${fakePrice}</span> */}
-                                    <span className="text-right">${track.duration}</span>
+                                    <span className="text-right ">${track.duration}</span>
                                 </li>
                             )
                             }
@@ -74,8 +74,8 @@ const Receipt = ({ playlist }) => {
                             "{playlist.lyrics.lyrics}" - {playlist.lyrics.artist}
                         </p>
                     )}
-                    <img src={playlist.qrCode} alt="Scannable QR Code with link to the playlist" />
-                    <img src={playlist.spotifyCode} alt="Scannable Spotify Code with link to the playlist" />
+                    <img src={playlist.qrCode} alt="Scannable QR Code with link to the playlist" className = "codes"/>
+                    <img src={playlist.spotifyCode} alt="Scannable Spotify Code with link to the playlist" className = "codes"/>
                 </div>
                 </div>
                 <p>{playlist.comment}</p>
