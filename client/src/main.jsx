@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App';
+import EntryPage from './pages/EntryPage';
 import HomePage from './pages/HomePage'; // Ensure the path is correct
 import ErrorPage from './pages/Error';
 import PlaylistReceipt from './pages/PlaylistReceipt';
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
+                element: <EntryPage />,
+            },
+            {
+                path: '/homePage',
                 element: <HomePage />,
             },
             {
