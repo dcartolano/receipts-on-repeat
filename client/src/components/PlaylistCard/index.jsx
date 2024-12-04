@@ -1,9 +1,9 @@
-const PlaylistCard = (playlistName) => {
+const PlaylistCard = ({ playlistName }) => {
     return (
         <div>
-            <p>{playlistName}</p>
+            <div className="playlistcard-container">{playlistName}</div>
         </div>
-    )
+    );
 }
 
 export default PlaylistCard;
