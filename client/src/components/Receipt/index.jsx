@@ -45,7 +45,7 @@ const Receipt = ({ playlist }) => {
             <div className='playlist-outer'>
                 <div key={playlist.id} className="playlist-container border p-3 mt-3 receipt-font">
                     <img src={playlist.imageUrl} alt="Playlist image from Spotify" className="playlist-image" />
-                    <h3>{playlist.name}</h3>
+                    <h3 className='receipt-playlist-name'>{playlist.name}</h3>
                     <ul id="songList" className="list-unstyled">
                         {playlist.tracks.map((track) => {
                             totalPrice = timeSum(totalPrice, track.duration);
@@ -66,8 +66,10 @@ const Receipt = ({ playlist }) => {
                             "{playlist.lyrics.lyrics}" - {playlist.lyrics.artist}
                         </p>
                     )}
-                    <img src={playlist.qrCode} alt="Scannable QR Code with link to the playlist" className="codes" />
-                    <img src={playlist.spotifyCode} alt="Scannable Spotify Code with link to the playlist" className="codes" />
+                    <div className='codes-section'>
+                        <img src={playlist.qrCode} alt="Scannable QR Code with link to the playlist" className="codes qr-code" />
+                        <img src={playlist.spotifyCode} alt="Scannable Spotify Code with link to the playlist" className="codes spotify-scannable-code" />
+                    </div>
                 </div>
             </div>
             {/* <div className="text-center mt-3">
@@ -122,7 +124,7 @@ const Receipt = ({ playlist }) => {
                         <p>No playlist data available.</p>
                     )}
                     <div className="text-center mt-3">
-                        <a href="/userProfile" className="btn btn-primary">Go Back</a>
+                        <a href="/userProfile" className="btn btn-primary receipt-go-back-button">Go Back</a>
                     </div>
                 </div>
             ) : (
