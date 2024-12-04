@@ -356,13 +356,12 @@ body {
   display: flex; /* Use flexbox for inner layout */
   align-items: center; /* Center items vertically */
   width: 100%;
+  margin-right: 15px
 }
 
-.footer-box-inside div {
-  margin-right: 15px; /* Space between image and title */
-}
+
 
 .external-api-logo {
-  /* max-width: 300px; */
+  min-width: 70px;
   max-height: 40px;
 }
