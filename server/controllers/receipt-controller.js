@@ -6,7 +6,8 @@ export const getAllReceipts = async (req, res) => {
         const receipts = await Receipt.find();
 
         // res.json({ message: 'showing all receipts!', receipts });
-        res.json({ receipts });
+        // res.status(200).json({ receipts });
+        res.status(200).json(receipts);
 
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -14,12 +15,15 @@ export const getAllReceipts = async (req, res) => {
 };
 
 export const createReceipt = async (req, res) => {
+    try {
+        const receipt = await Receipt.create(req.body);
 
-    const receipt = await Receipt.create(req.body);
+        if (!receipt) {
+            return res.status(400).json({ Message: "something is wrong!' " });
+        }
 
-    if (!receipt) {
-        return reswstatus(400).json({ Message: "something is wrong!' " });
-    }
-
-    return res.json('receipt saved!');
+        res.status(200).json('receipt saved!');
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+      }
 };
