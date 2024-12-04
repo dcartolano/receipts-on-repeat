@@ -14,13 +14,17 @@ const PlaylistReceipt = () => {
     const getReceiptData = async () => {        
         try {
             const response = await getAllReceipts();
+            // console.log(response.json());
+
+            const data = await response.json();
+            console.log(data);
 
             if (!response.ok) {
                 throw new Error('something went wrong!');
             }
 
-            console.log('getAllReceipts response:', response);
-            setReceiptData(response);
+            // console.log('getAllReceipts response:', response);
+            setReceiptData(data);
         } catch (err) {
             console.error(err);
         };
