@@ -160,3 +160,10 @@ body {
   border-radius: 15px; /* Adjust the value for more or less rounding */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+.playlistImage {
+  width: 100px;
+  height: 100px;
+  filter: grayscale(1) contrast(100) brightness(1);
+  mix-blend-mode: multiply;
+}
