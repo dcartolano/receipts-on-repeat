@@ -276,3 +276,41 @@ body {
   max-width: 300px;
   /* mix-blend-mode: multiply; */
 }
+
+.entry-page-welcome-box {
+  margin-top: 10%;
+  padding: 2%;
+  background-color: #f8f9fa; /* Light background color */
+  border-bottom: 1px solid #dee2e6;
+  border-radius: 15px; /* Adjust the value for more or less rounding */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.entry-page-text {
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  font-size: xx-large;
+  font-weight: 200;
+}
+
+.entry-page-welcome-box-outer {
+  
+  width: 100%;
+}
+
+.entry-button {
+  border-radius: 6px;
+  background: linear-gradient(30deg, 
+    #cae8f2, /* Light blue */
+    #add5e5, /* Sky blue */
+    #b0e2f1, /* Cool blue */
+    #a8d0ec /* Dark blue */
+  );
+  
+}
+
+.entry-button:hover {
+  filter: brightness(1.04);
+}
