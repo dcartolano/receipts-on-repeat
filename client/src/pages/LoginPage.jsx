@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const HomePage = () => {
+const LoginPage = () => {
     const [user, setUser] = useState(null);
 
     const handleLogin = async () => {
@@ -48,4 +48,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default LoginPage;

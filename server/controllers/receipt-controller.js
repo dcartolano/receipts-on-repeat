@@ -19,21 +19,7 @@ export const createReceipt = async (req, res) => {
         const receipt = await Receipt.create(req.body);
 
         if (!receipt) {
-            return res.status(400).json({ Message: "something is wrong!' " });
-        }
-
-        res.status(200).json('receipt saved!');
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-      }
-};
-
-export const updateComment = async (req, res) => {
-    try {
-        const receipt = await Receipt.create(req.body);
-
-        if (!receipt) {
-            return res.status(400).json({ Message: "something is wrong!' " });
+            return res.status(400).json({ Message: 'something is wrong!' });
         }
 
         res.status(200).json('receipt saved!');
@@ -43,14 +29,35 @@ export const updateComment = async (req, res) => {
 };
 
 export const deleteComment = async (req, res) => {
+    console.log(req.params.receiptId);
     try {
-        const receipt = await Receipt.create(req.body);
+        const updatedReceipt = await Receipt.findOneAndUpdate(
+            { _id: req.params.receiptId },
+            { $unset: {comment: ""} },
+            { new: true }
+        );
 
-        if (!receipt) {
-            return res.status(400).json({ Message: "something is wrong!' " });
+        if (!updatedReceipt) {
+            return res.status(400).json({ Message: 'something is wrong!' });
         }
 
-        res.status(200).json('receipt saved!');
+        res.status(200).json({ Message: 'comment deleted!', updatedReceipt: updatedReceipt });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+      }
+};
+
+export const deleteReceipt = async (req, res) => {
+    try {
+        const deletedReceipt = await Receipt.findOneAndDelete(
+            {_id: req.params.receiptId},
+        );
+
+        if (!deletedReceipt) {
+            return res.status(400).json({ Message: 'something is wrong!' });
+        }
+
+        res.status(200).json('receipt deleted!');
     } catch (err) {
         res.status(500).json({ error: err.message });
       }

@@ -282,6 +282,7 @@ body {
 .application-title {
   font-size: 24px; /* Adjust font size */
   font-weight: bold; /* Make the title bold */
+  /* color: #252525;  */
 }
 
 .nav-bar {
@@ -493,4 +494,12 @@ body {
     #e8f3ff
   );
   font-weight: 350;
+}
+
+.playlist-comment {
+  margin: 20px;
+}
+
+.comment-button {
+  margin: 20px;
 }

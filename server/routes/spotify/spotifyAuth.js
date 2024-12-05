@@ -10,9 +10,13 @@ const router = express.Router();
 import {
     getAllReceipts,
     createReceipt,
+    deleteComment,
+    deleteReceipt
 } from '../../controllers/receipt-controller.js';
 
 router.route('/receipts').get(getAllReceipts).post(createReceipt);
+
+router.route('/receipts/:receiptId').put(deleteComment).delete(deleteReceipt);
 
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET; // Ensure CLIENT_SECRET is loaded from .env
@@ -88,7 +92,7 @@ router.route('/callback').get(async (req, res) => {
         const userBody = await userResponse.json();
 
         // Fetch user playlists
-        const playlistsResponse = await fetch('https://api.spotify.com/v1/me/playlists?offset=0&limit=5', userOptions); // changed this
+        const playlistsResponse = await fetch('https://api.spotify.com/v1/me/playlists?offset=0&limit=15', userOptions); // changed this
         if (!playlistsResponse.ok) {
             const playlistsErrorBody = await playlistsResponse.text(); // Get the response as text
             console.error('Error fetching user playlists:', playlistsErrorBody);
@@ -194,7 +198,7 @@ router.route('/callback').get(async (req, res) => {
                     lyrics: lyricsObject,
                     qrCode: qrCode,
                     spotifyCode: spotifyCode,
-                    comment: 'Update this sample comment to share your thoughts on this playlist!'
+                    comment: 'Delete this sample comment if you don\'t like comments!'
                 };
             }
         }));

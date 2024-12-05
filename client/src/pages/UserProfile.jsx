@@ -10,15 +10,6 @@ const UserProfile = () => {
     const navigate = useNavigate(); // Hook to access the navigate function
 
     const handlePlaylistClick = async (playlist) => {
-            try {
-                const response = await createReceipt(playlist);
-                // console.log(response);
-                // if (!response.ok) {
-                //     throw new Error('something went wrong!');
-                // }
-            } catch (err) {
-                console.error(err);
-            };
         localStorage.setItem('selectedPlaylist', JSON.stringify(playlist)); // Store the selected playlist
         navigate('/playlistReceipt'); // Navigate to PlaylistReceipt
     };

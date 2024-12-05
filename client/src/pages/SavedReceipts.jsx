@@ -1,23 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import Receipt from "../components/Receipt/index.jsx";
+import SavedReceipt from '../components/SavedReceipt/index.jsx';
+import { getAllReceipts } from '../utils/Api.js';
 
 const SavedPlaylistReceipts = () => {
-    const [playlistId, setPlaylistId] = useState(null);
-    
-    // Fetch user data from local storage
-    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    const [receiptData, setReceiptData] = useState([]);
+
+    const getReceiptData = async () => {
+        try {
+            const receipts = await getAllReceipts();
+
+            if (!receipts) {
+                throw new Error('something went wrong!');
+            }
+
+            setReceiptData(receipts);
+        } catch (err) {
+            console.error(err);
+        };
+    }
 
     useEffect(() => {
-        // Retrieve the selected playlist ID from local storage
-        const selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
-        if (selectedPlaylist) {
-            setPlaylistId(selectedPlaylist.id); // Assuming selectedPlaylist has an id property
-        }
+        getReceiptData();
     }, []);
 
     return (
         <div>
-            <Receipt playlist={playlistId} userData={userData} /> {/* Pass the fetched playlist and user data to Receipt */}
+            {receiptData.length > 0 ? (
+                receiptData.map((receipt, index) => (
+                    <div key={index}>
+                        <SavedReceipt receipt={receipt} />
+                    </div>
+                ))
+            ) : (
+                <div>
+                    <p>No playlists saved yet!</p>
+                </div>
+            )}
         </div>
     );
 }
