@@ -2,10 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { deleteComment, deleteReceipt } from '../../utils/Api';
 
 const SavedReceipt = (receipt) => {
-    // const [userData, setUserData] = useState(null);
-
-    // console.log(receipt)
-    // console.log(receipt.receipt)
 
     const playlist = receipt.receipt;
 
@@ -31,10 +27,6 @@ const SavedReceipt = (receipt) => {
     const handleCommentDelete = async (playlistId) => {
         try {
             const response = await deleteComment(playlistId);
-            // console.log(response);
-            // if (!response.ok) {
-            //     throw new Error('something went wrong!');
-            // }
         } catch (err) {
             console.error(err);
         };
@@ -44,10 +36,6 @@ const SavedReceipt = (receipt) => {
     const handleReceiptDelete = async (playlistId) => {
         try {
             const response = await deleteReceipt(playlistId);
-            // console.log(response);
-            // if (!response.ok) {
-            //     throw new Error('something went wrong!');
-            // }
         } catch (err) {
             console.error(err);
         };
@@ -99,33 +87,8 @@ const SavedReceipt = (receipt) => {
                     ) : (
                         <button onClick={() => handleReceiptDelete(playlist._id)} className="btn btn-secondary">Delete Receipt</button>
                     )}
-                
-                {/* <button onClick={() => handleReceiptDelete(playlist._id)} className="btn btn-secondary">Delete Receipt</button> */}
             </div>
             </div>
-            {/* <div className="text-center mt-3">
-                {isEditing ? (
-                    <div>
-                        <textarea
-                            value={editedComment}
-                            onChange={handleCommentChange}
-                            rows="3"
-                            className="form-control"
-                        />
-                        <button onClick={handleSaveComment} className="btn btn-success mt-2">Save Comment</button>
-                    </div>
-                ) : (
-                    <div>
-                        <p className='playlist-comment'>{playlist.comment}</p>
-                        <button onClick={handleEditClick} className="btn btn-secondary">Edit Comment</button>
-                    </div>
-                )}
-            </div> */}
-            {/* <div>
-                <p className='playlist-comment'>{playlist.comment}</p>
-                <button onClick={() => handleCommentDelete(playlist._id)} className="btn btn-secondary">Delete Comment</button>
-                <button onClick={() => handleReceiptDelete(playlist._id)} className="btn btn-secondary">Delete Receipt</button>
-            </div> */}
         </div>
     );
 };

@@ -6,8 +6,7 @@ const Header = () => {
         <header>
             <div className="header-box">
                 <div className="header-box-inside">
-                    <img src={logo} alt="Application Logo" className="application-image"/>
-                    {/* <p className="application-title">Receipts on Repeat</p> */}
+                    <img src={logo} alt="Application Logo" className="application-image" />
                     <Link to="/" className="application-title">Receipts on Repeat</Link>
                     <nav className="nav-bar">
                         <Link to="/login" className="nav-bar-link">Login</Link>

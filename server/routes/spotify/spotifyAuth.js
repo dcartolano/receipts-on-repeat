@@ -104,13 +104,6 @@ router.route('/callback').get(async (req, res) => {
 
         // Fetch tracks for each playlist
         const playlistsWithTracks = await Promise.all(filteredPlaylists.map(async (playlist) => {
-            // // LEAVING IN CASE WE WANT TO GO BACK TO UTILIZING THIS METHOD THAT JAKE HAD ORIGINALLY SET UP
-            // const playlistsWithTracks = await Promise.all(playlistsBody.items.map(async (playlist) => {
-            // if (!playlist || !playlist.id) {
-            //     console.error('Invalid playlist object:', playlist);
-            //     continue;
-            //     // return { name: 'Unknown Playlist', tracks: [] }; // Return empty tracks for invalid playlists
-            // }
 
             const encodedPlaylistUrl = encodeURIComponent(playlist.external_urls.spotify);
             const qrCode = `http://api.qrserver.com/v1/create-qr-code/?data=${encodedPlaylistUrl}&size=100x100`;

@@ -23,14 +23,10 @@ const Receipt = ({ playlist }) => {
 
         return `${minSum}.${secondSum}`;
     }
-    // console.log(playlist)
+
     const handleSaveReceiptClick = async () => {
         try {
             const response = await createReceipt(playlist);
-            // console.log(response);
-            // if (!response.ok) {
-            //     throw new Error('something went wrong!');
-            // }
         } catch (err) {
             console.error(err);
         };
@@ -83,31 +79,12 @@ const Receipt = ({ playlist }) => {
                         </div>
                     </div>
                 </div>
-                {/* <div className="text-center mt-3">
-                {isEditing ? (
-                    <div>
-                        <textarea
-                            value={editedComment}
-                            onChange={handleCommentChange}
-                            rows="3"
-                            className="form-control"
-                        />
-                        <button onClick={handleSaveComment} className="btn btn-success mt-2">Save Comment</button>
-                    </div>
-                ) : (
-                    <div>
-                        <p className='playlist-comment'>{playlist.comment}</p>
-                        <button onClick={handleEditClick} className="btn btn-secondary">Edit Comment</button>
-                    </div>
-                )}
-            </div> */}
                 <div>
-                    {/* <p className='playlist-comment'>{playlist.comment}</p> */}
-                    { showButton ? (
-                    <button onClick={handleSaveReceiptClick} className="btn btn-secondary">Post Receipt to "Saved Playlists" Page</button>
-                ): (
-                    <p>Playlist saved!</p>
-                )}
+                    {showButton ? (
+                        <button onClick={handleSaveReceiptClick} className="btn btn-secondary">Post Receipt to "Saved Playlists" Page</button>
+                    ) : (
+                        <p>Playlist saved!</p>
+                    )}
                 </div>
             </div>
         );
@@ -130,8 +107,6 @@ const Receipt = ({ playlist }) => {
             </div>
             {userData ? (
                 <div className="text-center">
-                    {/* <h2>Welcome, {userData.name}!</h2>
-                    <p>Email: {userData.email}</p> */}
                     {userData.image && <img src={userData.image} alt="Profile" className="img-fluid rounded-circle" style={{ width: '150px', height: '150px' }} />}
                     {playlist ? (
                         renderPlaylist(playlist) // Render the passed playlist

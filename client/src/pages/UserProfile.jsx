@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import PlaylistCard from "../components/PlaylistCard/index.jsx";
-import { createReceipt } from "../utils/Api.js";
 
 const UserProfile = () => {
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -41,12 +40,12 @@ const UserProfile = () => {
                 <p className='bodyText'>Your Playlists!</p>
                 {playlists.length > 0 ? (
                     playlists.map((playlist, index) => (
-                        <button 
-                            className={`playlist-button-item ${gradientClasses[index % gradientClasses.length]}`} 
-                            key={index} 
+                        <button
+                            className={`playlist-button-item ${gradientClasses[index % gradientClasses.length]}`}
+                            key={index}
                             onClick={() => handlePlaylistClick(playlist)}
                         >
-                            <PlaylistCard playlistName={playlist.name}/>
+                            <PlaylistCard playlistName={playlist.name} />
                         </button>
                     ))
                 ) : (
@@ -60,4 +59,4 @@ const UserProfile = () => {
     );
 }
 
-    export default UserProfile;
+export default UserProfile;

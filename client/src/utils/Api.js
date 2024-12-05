@@ -36,14 +36,6 @@ export const getAllReceipts = async () => {
     console.error('Failed to fetch receipts:', error);
     throw error;
   }
-  // return fetch('/spotify/receipts', {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   }
-
-  // )
 };
 
 export const deleteComment = async (receiptId) => {
@@ -52,11 +44,6 @@ export const deleteComment = async (receiptId) => {
   try {
     const response = await fetch(`/spotify/receipts/${receiptId}`, {
       method: 'PUT',
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // },
-      // // body: JSON.stringify(receiptId),
-      // body: receiptId,
     });
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -76,10 +63,6 @@ export const deleteReceipt = async (receiptId) => {
   try {
     const response = await fetch(`/spotify/receipts/${receiptId}`, {
       method: 'DELETE',
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // },
-      // body: JSON.stringify(receiptId),
     });
     if (!response.ok) {
       throw new Error('Network response was not ok');

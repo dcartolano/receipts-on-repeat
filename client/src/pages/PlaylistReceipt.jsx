@@ -11,7 +11,7 @@ const PlaylistReceipt = () => {
     // Retrieve the selected playlist from local storage
     const selectedPlaylist = JSON.parse(localStorage.getItem('selectedPlaylist'));
 
-    const getReceiptData = async () => {        
+    const getReceiptData = async () => {
         try {
             const receipts = await getAllReceipts();
 
@@ -31,23 +31,7 @@ const PlaylistReceipt = () => {
 
     return (
         <div>
-            <Receipt playlist={selectedPlaylist} userData={userData} /> 
-            {/* Pass the selected playlist and user data to Receipt */}
-            {/* {receiptData.length > 0 ? (
-                receiptData.map((receipt, index) => (
-                    <div key={index}>
-                        <Receipt 
-                        playlist={receipt} 
-                        userData={userData} 
-                        />
-                    </div>
-                ))
-            ) : (
-                <div>
-                    <p>please select a receipt from your user profile!</p>
-                </div>
-            )
-            } */}
+            <Receipt playlist={selectedPlaylist} userData={userData} />
         </div>
     );
 }
