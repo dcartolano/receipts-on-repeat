@@ -12,12 +12,10 @@ const UserProfile = () => {
     const handlePlaylistClick = async (playlist) => {
             try {
                 const response = await createReceipt(playlist);
-
-                if (!response.ok) {
-                    throw new Error('something went wrong!');
-                }
-
-                console.log(response);
+                // console.log(response);
+                // if (!response.ok) {
+                //     throw new Error('something went wrong!');
+                // }
             } catch (err) {
                 console.error(err);
             };
