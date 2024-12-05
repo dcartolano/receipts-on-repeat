@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App';
 import EntryPage from './pages/EntryPage';
-import HomePage from './pages/HomePage'; // Ensure the path is correct
+import LoginPage from './pages/LoginPage';
 import ErrorPage from './pages/Error';
 import PlaylistReceipt from './pages/PlaylistReceipt';
 import UserProfile from './pages/UserProfile';
@@ -20,8 +20,8 @@ const router = createBrowserRouter([
                 element: <EntryPage />,
             },
             {
-                path: '/homePage',
-                element: <HomePage />,
+                path: '/login',
+                element: <LoginPage />,
             },
             {
                 path: '/playlistReceipt',
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
                 element: <UserProfile />,
             },
             {
-                path: '/SavedPlaylists',
+                path: '/savedPlaylists',
                 element: <SavedPlaylistReceipts />,
             },
         ],
