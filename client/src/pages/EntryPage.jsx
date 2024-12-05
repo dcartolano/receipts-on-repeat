@@ -5,7 +5,7 @@ const EntryPage = () => {
    const navigate = useNavigate();
 
    const handleNavigate = () => {
-       navigate('/homePage'); // Navigate to HomePage
+       navigate('/login'); // Navigate to HomePage
    };
 
    return (
