@@ -1,6 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import spotifyAuth from './routes/spotify/spotifyAuth.js';
 import db from './config/connection.js';
 import dotenv from 'dotenv';
 import path from 'path';
