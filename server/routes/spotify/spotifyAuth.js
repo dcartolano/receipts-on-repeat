@@ -92,7 +92,7 @@ router.route('/callback').get(async (req, res) => {
         const userBody = await userResponse.json();
 
         // Fetch user playlists
-        const playlistsResponse = await fetch('https://api.spotify.com/v1/me/playlists?offset=0&limit=15', userOptions); // changed this
+        const playlistsResponse = await fetch('https://api.spotify.com/v1/me/playlists?offset=0&limit=12', userOptions); // changed this
         if (!playlistsResponse.ok) {
             const playlistsErrorBody = await playlistsResponse.text(); // Get the response as text
             console.error('Error fetching user playlists:', playlistsErrorBody);
@@ -122,9 +122,9 @@ router.route('/callback').get(async (req, res) => {
             let i = 0;
             while (!lyricsResponseOk) {
                 const randomNumber = Math.floor(Math.random() * tracksBody.items.length);
-                console.log(randomNumber);
+                // console.log(randomNumber);
 
-                console.log('tracksbody.items[randomNumber].track.name: ', tracksBody.items[randomNumber].track.name);
+                // console.log('tracksbody.items[randomNumber].track.name: ', tracksBody.items[randomNumber].track.name);
 
                 const randomTitle = await tracksBody.items[randomNumber].track.name;
                 const randomArtist = await tracksBody.items[randomNumber].track.artists[0].name;
@@ -140,7 +140,7 @@ router.route('/callback').get(async (req, res) => {
                     }
                     lyricsResponseOk = true;
                 }
-                else if (i > 5) {
+                else if (i > 3) {
                     lyricsObject = {
                         lyrics: "If at first you don't succeed...",
                         artist: "Jake and Dave"
