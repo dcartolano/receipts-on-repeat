@@ -18,6 +18,7 @@ router.route('/receipts').get(getAllReceipts).post(createReceipt);
 
 router.route('/receipts/:receiptId').put(deleteComment).delete(deleteReceipt);
 
+// consider revising to camel case
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET; // Ensure CLIENT_SECRET is loaded from .env
 const redirect_uri = process.env.REDIRECT_URI;
@@ -205,7 +206,6 @@ router.route('/callback').get(async (req, res) => {
                     image: '${userBody.images[0]?.url || ''}',
                     playlists: ${JSON.stringify(playlistsWithTracks)}
                 }));
-                // window.location.href = '/userProfile.html'; // LEAVING THIS LINE IN CASE WE WANT TO GO BACK TO JAKE'S ORIGINAL METHOD
                 window.location.assign('/userProfile'); // Redirect to user profile page
             </script>
         `);
